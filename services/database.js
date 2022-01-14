@@ -34,7 +34,8 @@ async function simpleExecute(statement, binds = [], opts = {}) {
     return result;
   } catch (err) {
     console.error(err);
-    throw err;
+    return err;
+    //throw err;
   } finally {
     if (conn) {
       // conn assignment worked, need to close
@@ -48,3 +49,32 @@ async function simpleExecute(statement, binds = [], opts = {}) {
 }
 
 module.exports.simpleExecute = simpleExecute;
+
+async function multipleExecute(statement, binds = [], opts = {}) {
+  let conn;
+  let result = [];
+
+  opts.outFormat = oracledb.OBJECT;
+
+  try {
+    conn = await oracledb.getConnection();
+    result = await conn.executeMany(statement, binds, opts);
+    return result;
+  } catch (err) {
+    console.error(err);
+    return err;
+
+    // throw err;
+  } finally {
+    if (conn) {
+      // conn assignment worked, need to close
+      try {
+        await conn.close();
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  }
+}
+
+module.exports.multipleExecute = multipleExecute;

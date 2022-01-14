@@ -1,9 +1,11 @@
 const express = require("express");
 const router = new express.Router();
-const login = require("../controllers/login.js");
-const profile = require("../controllers/profile");
+const survey = require("../controllers/survey.js");
 
-router.route("/login/").post(login.post);
-router.route("/profile/:id/:sysid").get(profile.get);
+router.route("/survey/:yearid/:entid").get(survey.get);
+router
+  .route("/survey1/:surveyid")
+  .get(survey.getSurvey1)
+  .post(survey.postSurvey1Create);
 
 module.exports = router;
