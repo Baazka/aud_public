@@ -147,10 +147,10 @@ const updateSqlSurvey1 = `UPDATE AUD_PUBLIC.REG_SURVEY_1
   DOCUMENT_PERCENT = :DOCUMENT_PERCENT,
   UPDATED_BY = :CREATED_BY,
   UPDATED_DATE = SYSDATE
-      WHERE ID = :P_ID)`;
+      WHERE ID = :P_ID`;
 
 async function createUpdateSurvey1(data) {
-  if (data.ID === null) {
+  if (data.P_ID === null) {
     const result = await database.simpleExecute(createSqlSurvey1, data, {
       autoCommit: true,
     });
