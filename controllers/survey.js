@@ -32,7 +32,6 @@ module.exports.getSurvey1 = getSurvey1;
 function getData(req) {
   let data = {};
   data = {
-    P_ID: parseInt(req.body.ID),
     BUDGET_AMOUNT:
       req.body.BUDGET_AMOUNT != null ? parseFloat(req.body.BUDGET_AMOUNT) : null,
     RUNNING_COST_AMOUNT:
