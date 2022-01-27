@@ -33,6 +33,18 @@ function getData(req) {
   let data = {};
   data = {
     P_ID: parseInt(req.body.ID),
+    BUDGET_AMOUNT:
+      req.body.BUDGET_AMOUNT != null ? parseFloat(req.body.BUDGET_AMOUNT) : null,
+    RUNNING_COST_AMOUNT:
+      req.body.RUNNING_COST_AMOUNT != null ? parseFloat(req.body.RUNNING_COST_AMOUNT) : null,
+    INVESTMENT_COST_AMOUNT:
+      req.body.INVESTMENT_COST_AMOUNT != null ? parseFloat(req.body.INVESTMENT_COST_AMOUNT) : null,
+    EXECUTION_AMOUNT:
+      req.body.EXECUTION_AMOUNT != null ? parseFloat(req.body.EXECUTION_AMOUNT) : null,
+    EXECUTION_RUNNING_COST:
+      req.body.EXECUTION_RUNNING_COST != null ? parseFloat(req.body.EXECUTION_RUNNING_COST) : null,
+    EXECUTION_INVESTMENT_COST:
+      req.body.EXECUTION_INVESTMENT_COST != null ? parseFloat(req.body.EXECUTION_INVESTMENT_COST) : null,
     HEMNELT_DUN:
       req.body.HEMNELT_DUN != null ? parseFloat(req.body.HEMNELT_DUN) : null,
     HEMNELT_PERCENT:
