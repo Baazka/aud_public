@@ -163,6 +163,7 @@ async function createUpdateSurvey1(data) {
     });
 
     if (result.Error !== undefined) return { code: 405, result };
+    console.log(result);
     return {
       message: "success",
     };
