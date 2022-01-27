@@ -182,7 +182,7 @@ const deleteSqlSurvey1 = `UPDATE AUD_PUBLIC.REG_SURVEY_1
 SET IS_ACTIVE = 0,
 UPDATED_BY = :UPDATED_BY,
 UPDATED_DATE = SYSDATE
-    WHERE ID = :P_ID;)`;
+    WHERE ID = :P_ID`;
 
 async function deleteSurvey1(data) {
   const result = await database.simpleExecute(deleteSqlSurvey1, data, {
