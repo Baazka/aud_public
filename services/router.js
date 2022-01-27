@@ -7,7 +7,7 @@ router.route("/survey/:yearid/:entid").get(survey.get);
 //survey1
 router.route("/survey1/:surveyid").get(survey.getSurvey1);
 router.route("/survey1Insert").post(survey.postSurvey1CreateUpdate);
-router.route("/survey1Delete/:surveyid").post(survey.postSurvey1Delete);
+router.route("/survey1Delete").post(survey.postSurvey1Delete);
 //survey2_1
 router.route("/survey2_1/:surveyid").get(survey.getSurvey2_1);
 router.route("/survey2_1Insert").post(survey.postSurvey2_1CreateUpdate);

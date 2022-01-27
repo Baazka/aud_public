@@ -180,7 +180,7 @@ module.exports.createUpdateSurvey1 = createUpdateSurvey1;
 
 const deleteSqlSurvey1 = `UPDATE AUD_PUBLIC.REG_SURVEY_1
 SET IS_ACTIVE = 0,
-UPDATED_BY = :CREATED_BY,
+UPDATED_BY = :UPDATED_BY,
 UPDATED_DATE = SYSDATE
     WHERE ID = :P_ID;)`;
 
