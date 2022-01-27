@@ -47,10 +47,6 @@ function getData(req) {
       req.body.EXECUTION_INVESTMENT_COST != null ? parseFloat(req.body.EXECUTION_INVESTMENT_COST) : null,
     HEMNELT_DUN:
       req.body.HEMNELT_DUN != null ? parseFloat(req.body.HEMNELT_DUN) : null,
-    HEMNELT_PERCENT:
-      req.body.HEMNELT_PERCENT != null
-        ? parseFloat(req.body.HEMNELT_PERCENT)
-        : null,
     NEW_EMP_COUNT:
       req.body.NEW_EMP_COUNT != null ? parseInt(req.body.NEW_EMP_COUNT) : null,
     NEW_EMP_SALARY:
@@ -128,8 +124,6 @@ function getData(req) {
       req.body.BASE_COMPLETION_AMOUNT != null
         ? parseFloat(req.body.BASE_COMPLETION_AMOUNT)
         : null,
-    BASE_PERCENT:
-      req.body.BASE_PERCENT != null ? parseFloat(req.body.BASE_PERCENT) : null,
     DOCUMENT_PLAN_AMOUNT:
       req.body.DOCUMENT_PLAN_AMOUNT != null
         ? parseFloat(req.body.DOCUMENT_PLAN_AMOUNT)
@@ -137,10 +131,6 @@ function getData(req) {
     DOCUMENT_COMPLETION_AMOUNT:
       req.body.DOCUMENT_COMPLETION_AMOUNT != null
         ? parseFloat(req.body.DOCUMENT_COMPLETION_AMOUNT)
-        : null,
-    DOCUMENT_PERCENT:
-      req.body.DOCUMENT_PERCENT != null
-        ? parseFloat(req.body.DOCUMENT_PERCENT)
         : null,
     CREATED_BY: parseInt(req.body.CREATED_BY),
   };
