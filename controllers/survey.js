@@ -299,120 +299,40 @@ module.exports.getSurvey2_2 = getSurvey2_2;
 function getData2_2(req) {
   let data = {};
   data = {
-    P_ID: parseInt(req.body.ID),
-    BUDGET_AMOUNT:
-      req.body.BUDGET_AMOUNT != null ? parseFloat(req.body.BUDGET_AMOUNT) : null,
-    RUNNING_COST_AMOUNT:
-      req.body.RUNNING_COST_AMOUNT != null ? parseFloat(req.body.RUNNING_COST_AMOUNT) : null,
-    INVESTMENT_COST_AMOUNT:
-      req.body.INVESTMENT_COST_AMOUNT != null ? parseFloat(req.body.INVESTMENT_COST_AMOUNT) : null,
-    EXECUTION_AMOUNT:
-      req.body.EXECUTION_AMOUNT != null ? parseFloat(req.body.EXECUTION_AMOUNT) : null,
-    EXECUTION_RUNNING_COST:
-      req.body.EXECUTION_RUNNING_COST != null ? parseFloat(req.body.EXECUTION_RUNNING_COST) : null,
-    EXECUTION_INVESTMENT_COST:
-      req.body.EXECUTION_INVESTMENT_COST != null ? parseFloat(req.body.EXECUTION_INVESTMENT_COST) : null,
-    HEMNELT_DUN:
-      req.body.HEMNELT_DUN != null ? parseFloat(req.body.HEMNELT_DUN) : null,
-    HEMNELT_PERCENT:
-      req.body.HEMNELT_PERCENT != null
-        ? parseFloat(req.body.HEMNELT_PERCENT)
-        : null,
-    NEW_EMP_COUNT:
-      req.body.NEW_EMP_COUNT != null ? parseInt(req.body.NEW_EMP_COUNT) : null,
-    NEW_EMP_SALARY:
-      req.body.NEW_EMP_SALARY != null
-        ? parseFloat(req.body.NEW_EMP_SALARY)
-        : null,
-    RENEW_EMP_COUNT:
-      req.body.RENEW_EMP_COUNT != null
-        ? parseInt(req.body.RENEW_EMP_COUNT)
-        : null,
-    RENEW_EMP_SALARY:
-      req.body.RENEW_EMP_SALARY != null
-        ? parseFloat(req.body.RENEW_EMP_SALARY)
-        : null,
-    IMP_SALARY_COUNT:
-      req.body.IMP_SALARY_COUNT != null
-        ? parseInt(req.body.IMP_SALARY_COUNT)
-        : null,
-    IMP_SALARY_AMOUNT:
-      req.body.IMP_SALARY_AMOUNT != null
-        ? parseFloat(req.body.IMP_SALARY_AMOUNT)
-        : null,
-    IMP_PROMO_COUNT:
-      req.body.IMP_PROMO_COUNT != null
-        ? parseInt(req.body.IMP_PROMO_COUNT)
-        : null,
-    IMP_PROMO_AMOUNT:
-      req.body.IMP_PROMO_AMOUNT != null
-        ? parseFloat(req.body.IMP_PROMO_AMOUNT)
-        : null,
-    IMP_GUEST_AMOUNT:
-      req.body.IMP_GUEST_AMOUNT != null
-        ? parseFloat(req.body.IMP_GUEST_AMOUNT)
-        : null,
-    IMP_GIFT_AMOUNT:
-      req.body.IMP_GIFT_AMOUNT != null
-        ? parseFloat(req.body.IMP_GIFT_AMOUNT)
-        : null,
-    CAR_COUNT: req.body.CAR_COUNT != null ? parseInt(req.body.CAR_COUNT) : null,
-    CAR_AMOUNT:
-      req.body.CAR_AMOUNT != null ? parseFloat(req.body.CAR_AMOUNT) : null,
-    FURNITURE_AMOUNT:
-      req.body.FURNITURE_AMOUNT != null
-        ? parseFloat(req.body.FURNITURE_AMOUNT)
-        : null,
-    CLOTHES_AMOUNT:
-      req.body.CLOTHES_AMOUNT != null
-        ? parseFloat(req.body.CLOTHES_AMOUNT)
-        : null,
-    OTHER_TOOLS_AMOUNT:
-      req.body.OTHER_TOOLS_AMOUNT != null
-        ? parseFloat(req.body.OTHER_TOOLS_AMOUNT)
-        : null,
-    EXTERNAL_EVENT_AMOUNT:
-      req.body.EXTERNAL_EVENT_AMOUNT != null
-        ? parseFloat(req.body.EXTERNAL_EVENT_AMOUNT)
-        : null,
-    INTERNAL_EVENT_AMOUNT:
-      req.body.INTERNAL_EVENT_AMOUNT != null
-        ? parseFloat(req.body.INTERNAL_EVENT_AMOUNT)
-        : null,
-    CEREMONY_AMOUNT:
-      req.body.CEREMONY_AMOUNT != null
-        ? parseFloat(req.body.CEREMONY_AMOUNT)
-        : null,
-    CONTENT_AMOUNT:
-      req.body.CONTENT_AMOUNT != null
-        ? parseFloat(req.body.CONTENT_AMOUNT)
-        : null,
-    BASE_PLAN_AMOUNT:
-      req.body.BASE_PLAN_AMOUNT != null
-        ? parseFloat(req.body.BASE_PLAN_AMOUNT)
-        : null,
-    BASE_COMPLETION_AMOUNT:
-      req.body.BASE_COMPLETION_AMOUNT != null
-        ? parseFloat(req.body.BASE_COMPLETION_AMOUNT)
-        : null,
-    BASE_PERCENT:
-      req.body.BASE_PERCENT != null ? parseFloat(req.body.BASE_PERCENT) : null,
-    DOCUMENT_PLAN_AMOUNT:
-      req.body.DOCUMENT_PLAN_AMOUNT != null
-        ? parseFloat(req.body.DOCUMENT_PLAN_AMOUNT)
-        : null,
-    DOCUMENT_COMPLETION_AMOUNT:
-      req.body.DOCUMENT_COMPLETION_AMOUNT != null
-        ? parseFloat(req.body.DOCUMENT_COMPLETION_AMOUNT)
-        : null,
-    DOCUMENT_PERCENT:
-      req.body.DOCUMENT_PERCENT != null
-        ? parseFloat(req.body.DOCUMENT_PERCENT)
-        : null,
+    RECEIVE_PREV_AMOUNT: req.body.RECEIVE_PREV_AMOUNT != null ? parseFloat(req.body.RECEIVE_PREV_AMOUNT) : null,
+    RECEIVE_CY_AMOUNT: req.body.RECEIVE_CY_AMOUNT != null ? parseFloat(req.body.RECEIVE_CY_AMOUNT) : null,
+    RECEIVE_DESCRIPTION: req.body.RECEIVE_DESCRIPTION,
+    NONASSET_PREV_AMOUNT: req.body.NONASSET_PREV_AMOUNT != null ? parseFloat(req.body.NONASSET_PREV_AMOUNT) : null,
+    NONASSET_CY_AMOUNT: req.body.NONASSET_CY_AMOUNT != null ? parseFloat(req.body.NONASSET_CY_AMOUNT) : null,
+    NONASSET_DESCRIPTION: req.body.NONASSET_DESCRIPTION,
+    DEBT_PREV_AMOUNT: req.body.DEBT_PREV_AMOUNT != null ? parseFloat(req.body.DEBT_PREV_AMOUNT) : null,
+    DEBT_CY_AMOUNT: req.body.DEBT_CY_AMOUNT != null ? parseFloat(req.body.DEBT_CY_AMOUNT) : null,
+    DEBT_DESCRIPTION: req.body.DEBT_DESCRIPTION,
+    LONG_DEBT_PREV_AMOUNT: req.body.LONG_DEBT_PREV_AMOUNT != null ? parseFloat(req.body.LONG_DEBT_PREV_AMOUNT) : null,
+    LONG_DEBT_CY_AMOUNT: req.body.LONG_DEBT_CY_AMOUNT != null ? parseFloat(req.body.LONG_DEBT_CY_AMOUNT) : null,
+    LONG_DEBT_DESCRIPTION: req.body.LONG_DEBT_DESCRIPTION,
+    LONG_DEBT_PAYMENT: req.body.LONG_DEBT_PAYMENT,
+    LONG_DEBT_IS_COMPLETE: req.body.LONG_DEBT_IS_COMPLETE != null ? parseFloat(req.body.LONG_DEBT_IS_COMPLETE) : null,
+    PROPERTY_PREV_AMOUNT: req.body.PROPERTY_PREV_AMOUNT != null ? parseFloat(req.body.PROPERTY_PREV_AMOUNT) : null,
+    PROPERTY_CY_AMOUNT: req.body.PROPERTY_CY_AMOUNT != null ? parseFloat(req.body.PROPERTY_CY_AMOUNT) : null,
+    PROPERTY_DESCRIPTION: req.body.PROPERTY_DESCRIPTION,
+    INCOME_PREV_AMOUNT: req.body.INCOME_PREV_AMOUNT != null ? parseFloat(req.body.INCOME_PREV_AMOUNT) : null,
+    INCOME_CY_AMOUNT: req.body.INCOME_CY_AMOUNT != null ? parseFloat(req.body.INCOME_CY_AMOUNT) : null,
+    INCOME_DESCRIPTION: req.body.INCOME_DESCRIPTION,
+    PROFIT_PREV_AMOUNT: req.body.PROFIT_PREV_AMOUNT != null ? parseFloat(req.body.PROFIT_PREV_AMOUNT) : null,
+    PROFIT_CY_AMOUNT: req.body.PROFIT_CY_AMOUNT != null ? parseFloat(req.body.PROFIT_CY_AMOUNT) : null,
+    INVEST_ORG_PREV_AMOUNT: req.body.INVEST_ORG_PREV_AMOUNT != null ? parseFloat(req.body.INVEST_ORG_PREV_AMOUNT) : null,
+    INVEST_ORG_CY_AMOUNT: req.body.INVEST_ORG_CY_AMOUNT != null ? parseFloat(req.body.INVEST_ORG_CY_AMOUNT) : null,
+    INVEST_STATE_PREV_AMOUNT: req.body.INVEST_STATE_PREV_AMOUNT != null ? parseFloat(req.body.INVEST_STATE_PREV_AMOUNT) : null,
+    INVEST_STATE_CY_AMOUNT: req.body.INVEST_STATE_CY_AMOUNT != null ? parseFloat(req.body.INVEST_STATE_CY_AMOUNT) : null,
+    INVEST_LOCAL_PREV_AMOUNT: req.body.INVEST_LOCAL_PREV_AMOUNT != null ? parseFloat(req.body.INVEST_LOCAL_PREV_AMOUNT) : null,
+    INVEST_LOCAL_CY_AMOUNT: req.body.INVEST_LOCAL_CY_AMOUNT != null ? parseFloat(req.body.INVEST_LOCAL_CY_AMOUNT) : null,
+    INVEST_PROJECT_PREV_AMOUNT: req.body.INVEST_PROJECT_PREV_AMOUNT != null ? parseFloat(req.body.INVEST_PROJECT_PREV_AMOUNT) : null,
+    INVEST_PROJECT_CY_AMOUNT: req.body.INVEST_PROJECT_CY_AMOUNT != null ? parseFloat(req.body.INVEST_PROJECT_CY_AMOUNT) : null,
     CREATED_BY: parseInt(req.body.CREATED_BY),
   };
-  if (req.body.ID != null) {
-    data.P_ID = req.body.ID;
+  if (req.body.P_ID != null) {
+    data.P_ID = req.body.P_ID;
   } else {
     data.P_ID = null;
     data.SURVEY_ID = parseInt(req.body.SURVEY_ID);

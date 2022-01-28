@@ -15,7 +15,7 @@ router.route("/survey2_1Delete").post(survey.postSurvey2_1Delete);
 //survey2_2
 router.route("/survey2_2/:surveyid").get(survey.getSurvey2_2);
 router.route("/survey2_2Insert").post(survey.postSurvey2_2CreateUpdate);
-router.route("/survey2_2Delete/:surveyid").post(survey.postSurvey2_2Delete);
+router.route("/survey2_2Delete").post(survey.postSurvey2_2Delete);
 //survey2_3
 router.route("/survey2_3/:surveyid").get(survey.getSurvey2_3);
 router.route("/survey2_3Insert").post(survey.postSurvey2_3CreateUpdate);

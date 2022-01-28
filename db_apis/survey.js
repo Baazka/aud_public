@@ -500,7 +500,7 @@ UPDATED_DATE = SYSDATE
     WHERE ID = :P_ID;)`;
 
 async function getSurvey2_2(context) {
-  let query = baseQuery2_1;
+  let query = baseQuery2_2;
   const binds = {};
   binds.SURVEY_ID = context.SURVEY_ID;
 
@@ -514,7 +514,7 @@ module.exports.getSurvey2_2 = getSurvey2_2;
 
 async function createUpdateSurvey2_2(data) {
   if (data.P_ID === null) {
-    const result = await database.simpleExecute(createSqlSurvey2_1, data, {
+    const result = await database.simpleExecute(createSqlSurvey2_2, data, {
       autoCommit: true,
     });
 
@@ -523,7 +523,7 @@ async function createUpdateSurvey2_2(data) {
       message: "success",
     };
   } else {
-    const result = await database.simpleExecute(updateSqlSurvey2_1, data, {
+    const result = await database.simpleExecute(updateSqlSurvey2_2, data, {
       autoCommit: true,
     });
 
@@ -540,7 +540,7 @@ async function createUpdateSurvey2_2(data) {
 module.exports.createUpdateSurvey2_2 = createUpdateSurvey2_2;
 
 async function deleteSurvey2_2(data) {
-  const result = await database.simpleExecute(deleteSqlSurvey2_1, data, {
+  const result = await database.simpleExecute(deleteSqlSurvey2_2, data, {
     autoCommit: true,
   });
 
@@ -622,7 +622,7 @@ UPDATED_DATE = SYSDATE
     WHERE ID = :P_ID;)`;
 
 async function getSurvey2_3(context) {
-  let query = baseQuery2_1;
+  let query = baseQuery2_3;
   const binds = {};
   binds.SURVEY_ID = context.SURVEY_ID;
 
@@ -636,7 +636,7 @@ module.exports.getSurvey2_3 = getSurvey2_3;
 
 async function createUpdateSurvey2_3(data) {
   if (data.P_ID === null) {
-    const result = await database.simpleExecute(createSqlSurvey2_1, data, {
+    const result = await database.simpleExecute(createSqlSurvey2_3, data, {
       autoCommit: true,
     });
 
@@ -645,7 +645,7 @@ async function createUpdateSurvey2_3(data) {
       message: "success",
     };
   } else {
-    const result = await database.simpleExecute(updateSqlSurvey2_1, data, {
+    const result = await database.simpleExecute(updateSqlSurvey2_3, data, {
       autoCommit: true,
     });
 
@@ -662,7 +662,7 @@ async function createUpdateSurvey2_3(data) {
 module.exports.createUpdateSurvey2_3 = createUpdateSurvey2_3;
 
 async function deleteSurvey2_3(data) {
-  const result = await database.simpleExecute(deleteSqlSurvey2_1, data, {
+  const result = await database.simpleExecute(deleteSqlSurvey2_3, data, {
     autoCommit: true,
   });
 
