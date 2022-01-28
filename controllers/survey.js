@@ -361,7 +361,7 @@ module.exports.postSurvey2_2CreateUpdate = postSurvey2_2CreateUpdate;
 async function postSurvey2_2Delete(req, res, next) {
   try {
     result = await survey.deleteSurvey2_2({
-      CREATED_BY: req.body.DELETED_BY,
+      DELETED_BY: req.body.DELETED_BY,
       P_ID: req.body.P_ID,
     });
 
