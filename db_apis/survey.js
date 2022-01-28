@@ -497,7 +497,7 @@ const deleteSqlSurvey2_2 = `UPDATE AUD_PUBLIC.REG_SURVEY_2_2
 SET IS_ACTIVE = 0,
 UPDATED_BY = :DELETED_BY,
 UPDATED_DATE = SYSDATE
-    WHERE ID = :P_ID;)`;
+    WHERE ID = :P_ID`;
 
 async function getSurvey2_2(context) {
   let query = baseQuery2_2;
