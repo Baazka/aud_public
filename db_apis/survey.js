@@ -336,7 +336,7 @@ WHERE ID = :P_ID`;
 
 const deleteSqlSurvey2_1 = `UPDATE AUD_PUBLIC.REG_SURVEY_2_1
 SET IS_ACTIVE = 0,
-UPDATED_BY = :CREATED_BY,
+UPDATED_BY = :DELETED_BY,
 UPDATED_DATE = SYSDATE
     WHERE ID = :P_ID`;
 
@@ -345,7 +345,7 @@ async function getSurvey2_1(context) {
   const binds = {};
   binds.SURVEY_ID = context.SURVEY_ID;
 
-  console.log(binds, query);
+  //console.log(binds, query);
   const result = await database.simpleExecute(query, binds);
 
   return result.rows;
