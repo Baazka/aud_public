@@ -19,6 +19,6 @@ router.route("/survey2_2Delete").post(survey.postSurvey2_2Delete);
 //survey2_3
 router.route("/survey2_3/:surveyid").get(survey.getSurvey2_3);
 router.route("/survey2_3Insert").post(survey.postSurvey2_3CreateUpdate);
-router.route("/survey2_3Delete/:surveyid").post(survey.postSurvey2_3Delete);
+router.route("/survey2_3Delete").post(survey.postSurvey2_3Delete);
 
 module.exports = router;
