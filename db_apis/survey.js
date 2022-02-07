@@ -613,13 +613,13 @@ SET HEAD_ROLE = :HEAD_ROLE
 ,SUPPORT_AMOUNT = :SUPPORT_AMOUNT
 ,UPDATED_BY = :UPDATED_BY
 ,UPDATED_DATE = SYSDATE
-WHERE ID = :P_ID;`;
+WHERE ID = :P_ID`;
 
 const deleteSqlSurvey2_3 = `UPDATE AUD_PUBLIC.REG_SURVEY_2_3
 SET IS_ACTIVE = 0,
 UPDATED_BY = :CREATED_BY,
 UPDATED_DATE = SYSDATE
-    WHERE ID = :P_ID;)`;
+    WHERE ID = :P_ID`;
 
 async function getSurvey2_3(context) {
   let query = baseQuery2_3;
