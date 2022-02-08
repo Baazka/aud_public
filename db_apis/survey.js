@@ -676,3 +676,1033 @@ async function deleteSurvey2_3(data) {
 }
 
 module.exports.deleteSurvey2_3 = deleteSurvey2_3;
+
+//SURVEY 3
+const baseQuery3 = `SELECT 
+RS1.ID,
+RS.ID SUR_ID,
+TEZ.ENT_NAME,
+TTZ.ENT_NAME,
+RBT.BUDGET_TYPE_NAME,
+FA.AUDIT_CODE,
+AE.ENT_NAME,
+RS1.person_lastname, 
+RS1.person_firstname, 
+RS1.person_role, 
+RS1.person_role_level, 
+RS1.working_room, 
+RS1.resting_room, 
+RS1.toilet, 
+RS1.meeting_room,
+RS1.other_room, 
+RS1.total_area,
+RD.DEPARTMENT_NAME,
+(SELECT LISTAGG(SU.USER_CODE||'-'||SU.USER_NAME, ', ') WITHIN GROUP (ORDER BY TD.ID)  FROM FAS_ADMIN.FAS_AUDIT F
+INNER JOIN FAS_ADMIN.FAS_AUDIT_TEAM_DATA TD ON F.ID = TD.FAS_AUDIT_ID
+INNER JOIN AUD_REG.SYSTEM_USER SU ON TD.AUDITOR_ID = SU.USER_ID
+WHERE TD.ROLE_ID = 3 AND F.ID = FA.ID
+GROUP BY FA.ID) AUDITORS
+FROM AUD_PUBLIC.REG_SURVEY_3 RS1
+INNER JOIN AUD_PUBLIC.REG_SURVEY RS ON RS1.SURVEY_ID = RS.ID
+INNER JOIN AUD_PUBLIC.REF_SURVEY RSU ON RS.SURVEY_ID = RSU.ID
+INNER JOIN AUD_PUBLIC.REF_SURVEY_STATUS RSS ON RS.SURVEY_STATUS_ID = RSS.ID
+INNER JOIN FAS_ADMIN.FAS_AUDIT FA ON RS.SURVEY_AUDIT_ID = FA.ID
+INNER JOIN AUD_ORG.REF_DEPARTMENT RD ON FA.AUDIT_CHECK_DEP_ID = RD.DEPARTMENT_ID
+INNER JOIN AUD_ORG.AUDIT_ENTITY AE ON RS.SURVEY_ENT_ID = AE.ENT_ID
+INNER JOIN AUD_ORG.AUDIT_ENTITY TEZ ON AE.ENT_TEZ = TEZ.ENT_ID
+LEFT JOIN AUD_ORG.AUDIT_ENTITY TTZ ON AE.ENT_TTZ = TTZ.ENT_ID
+INNER JOIN AUD_ORG.REF_BUDGET_TYPE RBT ON AE.ENT_BUDGET_TYPE = RBT.BUDGET_TYPE_ID
+WHERE RS1.IS_ACTIVE = 1 AND RS1.SURVEY_ID = :SURVEY_ID`;
+
+const createSqlSurvey3 = `INSERT INTO AUD_PUBLIC.REG_SURVEY_3 (ID, SURVEY_ID, PERSON_LASTNAME, PERSON_FIRSTNAME, PERSON_ROLE, PERSON_ROLE_LEVEL, WORKING_ROOM, RESTING_ROOM, TOILET, MEETING_ROOM, OTHER_ROOM, TOTAL_AREA, IS_ACTIVE, CREATED_BY, CREATED_DATE) 
+VALUES (:P_ID, :SURVEY_ID, :PERSON_LASTNAME, :PERSON_FIRSTNAME, :PERSON_ROLE, :PERSON_ROLE_LEVEL, :WORKING_ROOM, :RESTING_ROOM,
+:TOILET, :MEETING_ROOM, :OTHER_ROOM, :TOTAL_AREA, 1, :CREATED_BY, SYSDATE)`;
+
+const updateSqlSurvey3 = `UPDATE AUD_PUBLIC.REG_SURVEY_3
+SET PERSON_LASTNAME = :PERSON_LASTNAME
+, PERSON_FIRSTNAME = :PERSON_FIRSTNAME
+, PERSON_ROLE = :PERSON_ROLE
+, PERSON_ROLE_LEVEL = :PERSON_ROLE_LEVEL
+, WORKING_ROOM = :WORKING_ROOM
+, RESTING_ROOM = :RESTING_ROOM
+, TOILET = :TOILET
+, MEETING_ROOM = :MEETING_ROOM
+, OTHER_ROOM = :OTHER_ROOM
+, TOTAL_AREA = :TOTAL_AREA
+, UPDATED_BY = :CREATED_BY
+, UPDATED_DATE = SYSDATE
+WHERE ID = :P_ID`;
+
+const deleteSqlSurvey3 = `UPDATE AUD_PUBLIC.REG_SURVEY_3
+SET IS_ACTIVE = 0,
+UPDATED_BY = :DELETED_BY,
+UPDATED_DATE = SYSDATE
+    WHERE ID = :P_ID`;
+
+async function getSurvey3(context) {
+  let query = baseQuery3;
+  const binds = {};
+  binds.SURVEY_ID = context.SURVEY_ID;
+
+  console.log(binds, query);
+  const result = await database.simpleExecute(query, binds);
+
+  return result.rows;
+}
+
+module.exports.getSurvey3 = getSurvey3;
+
+async function createUpdateSurvey3(data) {
+  if (data.P_ID === null) {
+    const result = await database.simpleExecute(createSqlSurvey3, data, {
+      autoCommit: true,
+    });
+
+    if (result.Error !== undefined) return { code: 405, result };
+    return {
+      message: "success",
+    };
+  } else {
+    const result = await database.simpleExecute(updateSqlSurvey3, data, {
+      autoCommit: true,
+    });
+
+    if (result.rowsAffected) {
+      return {
+        message: "success",
+      };
+    } else {
+      return null;
+    }
+  }
+}
+
+module.exports.createUpdateSurvey3 = createUpdateSurvey3;
+
+async function deleteSurvey3(data) {
+  const result = await database.simpleExecute(deleteSqlSurvey3, data, {
+    autoCommit: true,
+  });
+
+  if (result.rowsAffected) {
+    return {
+      message: "success",
+    };
+  } else {
+    return null;
+  }
+}
+
+module.exports.deleteSurvey3 = deleteSurvey3;
+
+//SURVEY 4
+const baseQuery4 = `SELECT 
+RS1.ID,
+RS.ID SUR_ID,
+TEZ.ENT_NAME,
+TTZ.ENT_NAME,
+RBT.BUDGET_TYPE_NAME,
+FA.AUDIT_CODE,
+AE.ENT_NAME,
+RS1.RENT_POSITION,
+RS1.RENT_REGISTER_NO,
+RS1.RENT_ORG_NAME,
+RS1.INVEST_TYPE_ID,
+RIT.INVEST_TYPE_NAME,
+RS1.CONTRACT_NO,
+RS1.RENT_SIZE,
+RS1.RENT_SQUARE_AMOUNT,
+RS1.RENT_TOTAL_AMOUNT,
+RS1.RENT_DESCRIPTION,
+RD.DEPARTMENT_NAME,
+(SELECT LISTAGG(SU.USER_CODE||'-'||SU.USER_NAME, ', ') WITHIN GROUP (ORDER BY TD.ID)  FROM FAS_ADMIN.FAS_AUDIT F
+INNER JOIN FAS_ADMIN.FAS_AUDIT_TEAM_DATA TD ON F.ID = TD.FAS_AUDIT_ID
+INNER JOIN AUD_REG.SYSTEM_USER SU ON TD.AUDITOR_ID = SU.USER_ID
+WHERE TD.ROLE_ID = 3 AND F.ID = FA.ID
+GROUP BY FA.ID) AUDITORS
+FROM AUD_PUBLIC.REG_SURVEY_4 RS1
+INNER JOIN AUD_PUBLIC.REG_SURVEY RS ON RS1.SURVEY_ID = RS.ID
+INNER JOIN AUD_PUBLIC.REF_SURVEY RSU ON RS.SURVEY_ID = RSU.ID
+INNER JOIN AUD_PUBLIC.REF_SURVEY_STATUS RSS ON RS.SURVEY_STATUS_ID = RSS.ID
+INNER JOIN FAS_ADMIN.FAS_AUDIT FA ON RS.SURVEY_AUDIT_ID = FA.ID
+INNER JOIN AUD_ORG.REF_DEPARTMENT RD ON FA.AUDIT_CHECK_DEP_ID = RD.DEPARTMENT_ID
+INNER JOIN AUD_ORG.AUDIT_ENTITY AE ON RS.SURVEY_ENT_ID = AE.ENT_ID
+INNER JOIN AUD_ORG.AUDIT_ENTITY TEZ ON AE.ENT_TEZ = TEZ.ENT_ID
+LEFT JOIN AUD_ORG.AUDIT_ENTITY TTZ ON AE.ENT_TTZ = TTZ.ENT_ID
+INNER JOIN AUD_ORG.REF_BUDGET_TYPE RBT ON AE.ENT_BUDGET_TYPE = RBT.BUDGET_TYPE_ID
+INNER JOIN AUD_PUBLIC.REF_INVEST_TYPE RIT ON RS1.INVEST_TYPE_ID = RIT.ID
+WHERE RS1.IS_ACTIVE = 1 AND RS1.SURVEY_ID = :SURVEY_ID`;
+
+const createSqlSurvey4 = `INSERT INTO AUD_PUBLIC.REG_SURVEY_4 ( ID, SURVEY_ID, RENT_POSITION, RENT_REGISTER_NO, RENT_ORG_NAME, INVEST_TYPE_ID, CONTRACT_NO, RENT_SIZE, RENT_SQUARE_AMOUNT,
+  RENT_TOTAL_AMOUNT, RENT_DESCRIPTION, IS_ACTIVE, CREATED_BY, CREATED_DATE) 
+  VALUES ( :P_ID, :SURVEY_ID, :RENT_POSITION, :RENT_REGISTER_NO, :RENT_ORG_NAME, :INVEST_TYPE_ID, :CONTRACT_NO, :RENT_SIZE, :RENT_SQUARE_AMOUNT, :RENT_TOTAL_AMOUNT,
+  :RENT_DESCRIPTION, 1, :CREATED_BY, SYSDATE);`;
+
+const updateSqlSurvey4 = `UPDATE AUD_PUBLIC.REG_SURVEY_4
+SET RENT_POSITION = :RENT_POSITION
+, RENT_REGISTER_NO = :RENT_REGISTER_NO
+, RENT_ORG_NAME = :RENT_ORG_NAME
+, INVEST_TYPE_ID = :INVEST_TYPE_ID
+, CONTRACT_NO = :CONTRACT_NO
+, RENT_SIZE = :RENT_SIZE
+, RENT_SQUARE_AMOUNT = :RENT_SQUARE_AMOUNT
+, RENT_TOTAL_AMOUNT = :RENT_TOTAL_AMOUNT
+, RENT_DESCRIPTION = :RENT_DESCRIPTION
+, UPDATED_BY = :CREATED_BY
+, UPDATED_DATE = SYSDATE
+WHERE ID = :P_ID`;
+
+const deleteSqlSurvey4 = `UPDATE AUD_PUBLIC.REG_SURVEY_4
+SET IS_ACTIVE = 0,
+UPDATED_BY = :DELETED_BY,
+UPDATED_DATE = SYSDATE
+    WHERE ID = :P_ID`;
+
+async function getSurvey4(context) {
+  let query = baseQuery4;
+  const binds = {};
+  binds.SURVEY_ID = context.SURVEY_ID;
+
+  console.log(binds, query);
+  const result = await database.simpleExecute(query, binds);
+
+  return result.rows;
+}
+
+module.exports.getSurvey4 = getSurvey4;
+
+async function createUpdateSurvey4(data) {
+  if (data.P_ID === null) {
+    const result = await database.simpleExecute(createSqlSurvey4, data, {
+      autoCommit: true,
+    });
+
+    if (result.Error !== undefined) return { code: 405, result };
+    return {
+      message: "success",
+    };
+  } else {
+    const result = await database.simpleExecute(updateSqlSurvey4, data, {
+      autoCommit: true,
+    });
+
+    if (result.rowsAffected) {
+      return {
+        message: "success",
+      };
+    } else {
+      return null;
+    }
+  }
+}
+
+module.exports.createUpdateSurvey4 = createUpdateSurvey4;
+
+async function deleteSurvey4(data) {
+  const result = await database.simpleExecute(deleteSqlSurvey4, data, {
+    autoCommit: true,
+  });
+
+  if (result.rowsAffected) {
+    return {
+      message: "success",
+    };
+  } else {
+    return null;
+  }
+}
+
+module.exports.deleteSurvey4 = deleteSurvey4;
+
+//SURVEY 5
+const baseQuery5 = `SELECT 
+RS1.ID,
+RS.ID SUR_ID,
+TEZ.ENT_NAME,
+TTZ.ENT_NAME,
+RBT.BUDGET_TYPE_NAME,
+FA.AUDIT_CODE,
+AE.ENT_NAME,
+RS1.donation_date,
+RS1.donation_value,
+RS1.project_intent,
+RS1.project_name,
+RS1.project_code,
+RS1.project_intent_name,
+RS1.project_intent_code,
+RS1.contract_amount,
+RS1.contract_period,
+RS1.cy_invest_amount,
+RS1.is_conclution,
+RS1.is_required,
+RS1.invest_description,
+RS1.ngo_register_no,
+RS1.ngo_name,
+RS1.ngo_activity,
+RS1.ngo_contact,
+RS1.ngo_email,
+RS1.ngo_head_lastname,
+RS1.ngo_head_firstname,
+RD.DEPARTMENT_NAME,
+(SELECT LISTAGG(SU.USER_CODE||'-'||SU.USER_NAME, ', ') WITHIN GROUP (ORDER BY TD.ID)  FROM FAS_ADMIN.FAS_AUDIT F
+INNER JOIN FAS_ADMIN.FAS_AUDIT_TEAM_DATA TD ON F.ID = TD.FAS_AUDIT_ID
+INNER JOIN AUD_REG.SYSTEM_USER SU ON TD.AUDITOR_ID = SU.USER_ID
+WHERE TD.ROLE_ID = 3 AND F.ID = FA.ID
+GROUP BY FA.ID) AUDITORS
+FROM AUD_PUBLIC.REG_SURVEY_5 RS1
+INNER JOIN AUD_PUBLIC.REG_SURVEY RS ON RS1.SURVEY_ID = RS.ID
+INNER JOIN AUD_PUBLIC.REF_SURVEY RSU ON RS.SURVEY_ID = RSU.ID
+INNER JOIN AUD_PUBLIC.REF_SURVEY_STATUS RSS ON RS.SURVEY_STATUS_ID = RSS.ID
+INNER JOIN FAS_ADMIN.FAS_AUDIT FA ON RS.SURVEY_AUDIT_ID = FA.ID
+INNER JOIN AUD_ORG.REF_DEPARTMENT RD ON FA.AUDIT_CHECK_DEP_ID = RD.DEPARTMENT_ID
+INNER JOIN AUD_ORG.AUDIT_ENTITY AE ON RS.SURVEY_ENT_ID = AE.ENT_ID
+INNER JOIN AUD_ORG.AUDIT_ENTITY TEZ ON AE.ENT_TEZ = TEZ.ENT_ID
+LEFT JOIN AUD_ORG.AUDIT_ENTITY TTZ ON AE.ENT_TTZ = TTZ.ENT_ID
+INNER JOIN AUD_ORG.REF_BUDGET_TYPE RBT ON AE.ENT_BUDGET_TYPE = RBT.BUDGET_TYPE_ID
+WHERE RS1.IS_ACTIVE = 1 AND RS1.SURVEY_ID = :SURVEY_ID`;
+
+const createSqlSurvey5 = `INSERT INTO AUD_PUBLIC.REG_SURVEY_5 ( ID, SURVEY_ID, DONATION_DATE, DONATION_VALUE, PROJECT_INTENT, PROJECT_NAME, PROJECT_CODE, PROJECT_INTENT_NAME, PROJECT_INTENT_CODE,
+  CONTRACT_AMOUNT, CONTRACT_PERIOD, CY_INVEST_AMOUNT, IS_CONCLUTION, IS_REQUIRED, INVEST_DESCRIPTION, NGO_REGISTER_NO, NGO_NAME, NGO_ACTIVITY, NGO_CONTACT, NGO_EMAIL,
+  NGO_HEAD_LASTNAME, NGO_HEAD_FIRSTNAME, IS_ACTIVE, CREATED_BY, CREATED_DATE ) 
+  VALUES ( :P_ID, :SURVEY_ID, :DONATION_DATE, :DONATION_VALUE, :PROJECT_INTENT, :PROJECT_NAME, :PROJECT_CODE, :PROJECT_INTENT_NAME, :PROJECT_INTENT_CODE, :CONTRACT_AMOUNT,
+  :CONTRACT_PERIOD, :CY_INVEST_AMOUNT, :IS_CONCLUTION, :IS_REQUIRED, :INVEST_DESCRIPTION, :NGO_REGISTER_NO, :NGO_NAME, :NGO_ACTIVITY, :NGO_CONTACT, :NGO_EMAIL, :NGO_HEAD_LASTNAME,
+  :NGO_HEAD_FIRSTNAME, 1, :CREATED_BY, SYSDATE)`;
+
+const updateSqlSurvey5 = `UPDATE AUD_PUBLIC.REG_SURVEY_5
+SET DONATION_DATE = :DONATION_DATE
+, DONATION_VALUE = :DONATION_VALUE
+, PROJECT_INTENT = :PROJECT_INTENT
+, PROJECT_NAME = :PROJECT_NAME
+, PROJECT_CODE = :PROJECT_CODE
+, PROJECT_INTENT_NAME = :PROJECT_INTENT_NAME
+, PROJECT_INTENT_CODE = :PROJECT_INTENT_CODE
+, CONTRACT_AMOUNT = :CONTRACT_AMOUNT
+, CONTRACT_PERIOD = :CONTRACT_PERIOD
+, CY_INVEST_AMOUNT = :CY_INVEST_AMOUNT
+, IS_CONCLUTION = :IS_CONCLUTION
+, IS_REQUIRED = :IS_REQUIRED
+, INVEST_DESCRIPTION = :INVEST_DESCRIPTION
+, NGO_REGISTER_NO = :NGO_REGISTER_NO
+, NGO_NAME = :NGO_NAME
+, NGO_ACTIVITY = :NGO_ACTIVITY
+, NGO_CONTACT = :NGO_CONTACT
+, NGO_EMAIL = :NGO_EMAIL
+, NGO_HEAD_LASTNAME = :NGO_HEAD_LASTNAME
+, NGO_HEAD_FIRSTNAME = :NGO_HEAD_FIRSTNAME
+, UPDATED_BY = :CREATED_BY
+, UPDATED_DATE = SYSDATE
+WHERE ID = :P_ID`;
+
+const deleteSqlSurvey5 = `UPDATE AUD_PUBLIC.REG_SURVEY_5
+SET IS_ACTIVE = 0,
+UPDATED_BY = :DELETED_BY,
+UPDATED_DATE = SYSDATE
+    WHERE ID = :P_ID`;
+
+async function getSurvey5(context) {
+  let query = baseQuery5;
+  const binds = {};
+  binds.SURVEY_ID = context.SURVEY_ID;
+
+  console.log(binds, query);
+  const result = await database.simpleExecute(query, binds);
+
+  return result.rows;
+}
+
+module.exports.getSurvey5 = getSurvey5;
+
+async function createUpdateSurvey5(data) {
+  if (data.P_ID === null) {
+    const result = await database.simpleExecute(createSqlSurvey5, data, {
+      autoCommit: true,
+    });
+
+    if (result.Error !== undefined) return { code: 405, result };
+    return {
+      message: "success",
+    };
+  } else {
+    const result = await database.simpleExecute(updateSqlSurvey5, data, {
+      autoCommit: true,
+    });
+
+    if (result.rowsAffected) {
+      return {
+        message: "success",
+      };
+    } else {
+      return null;
+    }
+  }
+}
+
+module.exports.createUpdateSurvey5 = createUpdateSurvey5;
+
+async function deleteSurvey5(data) {
+  const result = await database.simpleExecute(deleteSqlSurvey5, data, {
+    autoCommit: true,
+  });
+
+  if (result.rowsAffected) {
+    return {
+      message: "success",
+    };
+  } else {
+    return null;
+  }
+}
+
+module.exports.deleteSurvey5 = deleteSurvey5;
+
+//SURVEY 6
+const baseQuery6 = `SELECT 
+RS1.ID,
+RS.ID SUR_ID,
+TEZ.ENT_NAME,
+TTZ.ENT_NAME,
+RBT.BUDGET_TYPE_NAME,
+FA.AUDIT_CODE,
+AE.ENT_NAME,
+RS1.DONATER_NAME,
+RS1.DONATION_TYPE_ID,
+RDT.DONATION_TYPE_NAME,
+RS1.DONATION_AMOUNT,
+RS1.ACCOUNT_NAME,
+RS1.ACCOUNT_AMOUNT,
+RS1.COST_DATE,
+RS1.COST_DOCUMENT_NO,
+RS1.COST_AMOUNT,
+RS1.COST_ERROR_AMOUNT,
+RS1.C2_AMOUNT,
+RD.DEPARTMENT_NAME,
+(SELECT LISTAGG(SU.USER_CODE||'-'||SU.USER_NAME, ', ') WITHIN GROUP (ORDER BY TD.ID)  FROM FAS_ADMIN.FAS_AUDIT F
+INNER JOIN FAS_ADMIN.FAS_AUDIT_TEAM_DATA TD ON F.ID = TD.FAS_AUDIT_ID
+INNER JOIN AUD_REG.SYSTEM_USER SU ON TD.AUDITOR_ID = SU.USER_ID
+WHERE TD.ROLE_ID = 3 AND F.ID = FA.ID
+GROUP BY FA.ID) AUDITORS
+FROM AUD_PUBLIC.REG_SURVEY_6 RS1
+INNER JOIN AUD_PUBLIC.REG_SURVEY RS ON RS1.SURVEY_ID = RS.ID
+INNER JOIN AUD_PUBLIC.REF_SURVEY RSU ON RS.SURVEY_ID = RSU.ID
+INNER JOIN AUD_PUBLIC.REF_SURVEY_STATUS RSS ON RS.SURVEY_STATUS_ID = RSS.ID
+INNER JOIN FAS_ADMIN.FAS_AUDIT FA ON RS.SURVEY_AUDIT_ID = FA.ID
+INNER JOIN AUD_ORG.REF_DEPARTMENT RD ON FA.AUDIT_CHECK_DEP_ID = RD.DEPARTMENT_ID
+INNER JOIN AUD_ORG.AUDIT_ENTITY AE ON RS.SURVEY_ENT_ID = AE.ENT_ID
+INNER JOIN AUD_ORG.AUDIT_ENTITY TEZ ON AE.ENT_TEZ = TEZ.ENT_ID
+LEFT JOIN AUD_ORG.AUDIT_ENTITY TTZ ON AE.ENT_TTZ = TTZ.ENT_ID
+INNER JOIN AUD_ORG.REF_BUDGET_TYPE RBT ON AE.ENT_BUDGET_TYPE = RBT.BUDGET_TYPE_ID
+INNER JOIN AUD_PUBLIC.REF_DONATION_TYPE RDT ON RS1.DONATION_TYPE_ID = RDT.ID
+WHERE RS1.IS_ACTIVE = 1 AND RS1.SURVEY_ID = :SURVEY_ID`;
+
+const createSqlSurvey6 = `INSERT INTO AUD_PUBLIC.REG_SURVEY_6 ( ID, SURVEY_ID, DONATER_NAME, DONATION_TYPE_ID, DONATION_AMOUNT, ACCOUNT_NAME, ACCOUNT_AMOUNT, COST_DATE, COST_DOCUMENT_NO,
+  COST_AMOUNT, COST_ERROR_AMOUNT, C2_AMOUNT, IS_ACTIVE, CREATED_BY, CREATED_DATE) 
+  VALUES ( :P_ID, :SURVEY_ID, :DONATER_NAME, :DONATION_TYPE_ID, :DONATION_AMOUNT, :ACCOUNT_NAME, :ACCOUNT_AMOUNT, :COST_DATE, :COST_DOCUMENT_NO, :COST_AMOUNT,
+  :COST_ERROR_AMOUNT, :C2_AMOUNT, 1, :CREATED_BY, SYSDATE)`;
+
+const updateSqlSurvey6 = `UPDATE AUD_PUBLIC.REG_SURVEY_6
+SET DONATER_NAME = :DONATER_NAME
+, DONATION_TYPE_ID = :DONATION_TYPE_ID
+, DONATION_AMOUNT = :DONATION_AMOUNT
+, ACCOUNT_NAME = :ACCOUNT_NAME
+, ACCOUNT_AMOUNT = :ACCOUNT_AMOUNT
+, COST_DATE = :COST_DATE
+, COST_DOCUMENT_NO = :COST_DOCUMENT_NO
+, COST_AMOUNT = :COST_AMOUNT
+, COST_ERROR_AMOUNT = :COST_ERROR_AMOUNT
+, C2_AMOUNT = :C2_AMOUNT
+, UPDATED_BY = :CREATED_BY
+, UPDATED_DATE = SYSDATE
+WHERE ID = :P_ID`;
+
+const deleteSqlSurvey6 = `UPDATE AUD_PUBLIC.REG_SURVEY_6
+SET IS_ACTIVE = 0,
+UPDATED_BY = :DELETED_BY,
+UPDATED_DATE = SYSDATE
+    WHERE ID = :P_ID`;
+
+async function getSurvey6(context) {
+  let query = baseQuery6;
+  const binds = {};
+  binds.SURVEY_ID = context.SURVEY_ID;
+
+  console.log(binds, query);
+  const result = await database.simpleExecute(query, binds);
+
+  return result.rows;
+}
+
+module.exports.getSurvey6 = getSurvey6;
+
+async function createUpdateSurvey6(data) {
+  if (data.P_ID === null) {
+    const result = await database.simpleExecute(createSqlSurvey6, data, {
+      autoCommit: true,
+    });
+
+    if (result.Error !== undefined) return { code: 405, result };
+    return {
+      message: "success",
+    };
+  } else {
+    const result = await database.simpleExecute(updateSqlSurvey6, data, {
+      autoCommit: true,
+    });
+
+    if (result.rowsAffected) {
+      return {
+        message: "success",
+      };
+    } else {
+      return null;
+    }
+  }
+}
+
+module.exports.createUpdateSurvey6 = createUpdateSurvey6;
+
+async function deleteSurvey6(data) {
+  const result = await database.simpleExecute(deleteSqlSurvey6, data, {
+    autoCommit: true,
+  });
+
+  if (result.rowsAffected) {
+    return {
+      message: "success",
+    };
+  } else {
+    return null;
+  }
+}
+
+module.exports.deleteSurvey6 = deleteSurvey6;
+
+//SURVEY 7
+const baseQuery7 = `SELECT 
+RS1.ID,
+RS.ID SUR_ID,
+TEZ.ENT_NAME,
+TTZ.ENT_NAME,
+RBT.BUDGET_TYPE_NAME,
+FA.AUDIT_CODE,
+AE.ENT_NAME,
+RS1.hospital_name,
+RS1.patient_count,
+RS1.home_patient_count,
+RS1.request_amount,
+RS1.invested_amount,
+RS1.total_cost_amount,
+RS1.package_count,
+RS1.package_amount,
+RS1.protection_cost,
+RS1.gas_cost,
+RS1.phone_cost,
+RS1.salary_cost,
+RS1.process_cost,
+RS1.prepare_cost,
+RS1.other_cost,
+RS1.receive_amount,
+RS1.diff_amount,
+RS1.package_c2_count,
+RS1.package_c2_amount,
+RS1.cost_description,
+RD.DEPARTMENT_NAME,
+(SELECT LISTAGG(SU.USER_CODE||'-'||SU.USER_NAME, ', ') WITHIN GROUP (ORDER BY TD.ID)  FROM FAS_ADMIN.FAS_AUDIT F
+INNER JOIN FAS_ADMIN.FAS_AUDIT_TEAM_DATA TD ON F.ID = TD.FAS_AUDIT_ID
+INNER JOIN AUD_REG.SYSTEM_USER SU ON TD.AUDITOR_ID = SU.USER_ID
+WHERE TD.ROLE_ID = 3 AND F.ID = FA.ID
+GROUP BY FA.ID) AUDITORS
+FROM AUD_PUBLIC.REG_SURVEY_7 RS1
+INNER JOIN AUD_PUBLIC.REG_SURVEY RS ON RS1.SURVEY_ID = RS.ID
+INNER JOIN AUD_PUBLIC.REF_SURVEY RSU ON RS.SURVEY_ID = RSU.ID
+INNER JOIN AUD_PUBLIC.REF_SURVEY_STATUS RSS ON RS.SURVEY_STATUS_ID = RSS.ID
+INNER JOIN FAS_ADMIN.FAS_AUDIT FA ON RS.SURVEY_AUDIT_ID = FA.ID
+INNER JOIN AUD_ORG.REF_DEPARTMENT RD ON FA.AUDIT_CHECK_DEP_ID = RD.DEPARTMENT_ID
+INNER JOIN AUD_ORG.AUDIT_ENTITY AE ON RS.SURVEY_ENT_ID = AE.ENT_ID
+INNER JOIN AUD_ORG.AUDIT_ENTITY TEZ ON AE.ENT_TEZ = TEZ.ENT_ID
+LEFT JOIN AUD_ORG.AUDIT_ENTITY TTZ ON AE.ENT_TTZ = TTZ.ENT_ID
+INNER JOIN AUD_ORG.REF_BUDGET_TYPE RBT ON AE.ENT_BUDGET_TYPE = RBT.BUDGET_TYPE_ID
+WHERE RS1.IS_ACTIVE = 1 AND RS1.SURVEY_ID = :SURVEY_ID`;
+
+const createSqlSurvey7 = `INSERT INTO AUD_PUBLIC.REG_SURVEY_7 ( ID, SURVEY_ID, HOSPITAL_NAME, PATIENT_COUNT, HOME_PATIENT_COUNT, REQUEST_AMOUNT, INVESTED_AMOUNT, TOTAL_COST_AMOUNT, PACKAGE_COUNT,
+  PACKAGE_AMOUNT, PROTECTION_COST, GAS_COST, PHONE_COST, SALARY_COST, PROCESS_COST, PREPARE_COST, OTHER_COST, RECEIVE_AMOUNT, DIFF_AMOUNT, PACKAGE_C2_COUNT, PACKAGE_C2_AMOUNT,
+  COST_DESCRIPTION, IS_ACTIVE, CREATED_BY, CREATED_DATE) 
+  VALUES ( :P_ID, :SURVEY_ID, :HOSPITAL_NAME, :PATIENT_COUNT, :HOME_PATIENT_COUNT, :REQUEST_AMOUNT, :INVESTED_AMOUNT, :TOTAL_COST_AMOUNT, :PACKAGE_COUNT, :PACKAGE_AMOUNT,
+  :PROTECTION_COST, :GAS_COST, :PHONE_COST, :SALARY_COST, :PROCESS_COST, :PREPARE_COST, :OTHER_COST, :RECEIVE_AMOUNT, :DIFF_AMOUNT, :PACKAGE_C2_COUNT, :PACKAGE_C2_AMOUNT,
+  :COST_DESCRIPTION, 1, :CREATED_BY, SYSDATE)`;
+
+const updateSqlSurvey7 = `UPDATE AUD_PUBLIC.REG_SURVEY_7
+SET HOSPITAL_NAME = :HOSPITAL_NAME
+, PATIENT_COUNT = :PATIENT_COUNT
+, HOME_PATIENT_COUNT = :HOME_PATIENT_COUNT
+, REQUEST_AMOUNT = :REQUEST_AMOUNT
+, INVESTED_AMOUNT = :INVESTED_AMOUNT
+, TOTAL_COST_AMOUNT = :TOTAL_COST_AMOUNT
+, PACKAGE_COUNT = :PACKAGE_COUNT
+, PACKAGE_AMOUNT = :PACKAGE_AMOUNT
+, PROTECTION_COST = :PROTECTION_COST
+, GAS_COST = :GAS_COST
+, PHONE_COST = :PHONE_COST
+, SALARY_COST = :SALARY_COST
+, PROCESS_COST = :PROCESS_COST
+, PREPARE_COST = :PREPARE_COST
+, OTHER_COST = :OTHER_COST
+, RECEIVE_AMOUNT = :RECEIVE_AMOUNT
+, DIFF_AMOUNT = :DIFF_AMOUNT
+, PACKAGE_C2_COUNT = :PACKAGE_C2_COUNT
+, PACKAGE_C2_AMOUNT = :PACKAGE_C2_AMOUNT
+, COST_DESCRIPTION = :COST_DESCRIPTION
+, UPDATED_BY = :CREATED_BY
+, UPDATED_DATE = SYSDATE
+WHERE ID = :P_ID`;
+
+const deleteSqlSurvey7 = `UPDATE AUD_PUBLIC.REG_SURVEY_7
+SET IS_ACTIVE = 0,
+UPDATED_BY = :DELETED_BY,
+UPDATED_DATE = SYSDATE
+    WHERE ID = :P_ID`;
+
+async function getSurvey7(context) {
+  let query = baseQuery7;
+  const binds = {};
+  binds.SURVEY_ID = context.SURVEY_ID;
+
+  console.log(binds, query);
+  const result = await database.simpleExecute(query, binds);
+
+  return result.rows;
+}
+
+module.exports.getSurvey7 = getSurvey7;
+
+async function createUpdateSurvey7(data) {
+  if (data.P_ID === null) {
+    const result = await database.simpleExecute(createSqlSurvey7, data, {
+      autoCommit: true,
+    });
+
+    if (result.Error !== undefined) return { code: 405, result };
+    return {
+      message: "success",
+    };
+  } else {
+    const result = await database.simpleExecute(updateSqlSurvey7, data, {
+      autoCommit: true,
+    });
+
+    if (result.rowsAffected) {
+      return {
+        message: "success",
+      };
+    } else {
+      return null;
+    }
+  }
+}
+
+module.exports.createUpdateSurvey7 = createUpdateSurvey7;
+
+async function deleteSurvey7(data) {
+  const result = await database.simpleExecute(deleteSqlSurvey7, data, {
+    autoCommit: true,
+  });
+
+  if (result.rowsAffected) {
+    return {
+      message: "success",
+    };
+  } else {
+    return null;
+  }
+}
+
+module.exports.deleteSurvey7 = deleteSurvey7;
+
+//SURVEY 8
+const baseQuery8 = `SELECT 
+RS1.ID,
+RS.ID SUR_ID,
+TEZ.ENT_NAME,
+TTZ.ENT_NAME,
+RBT.BUDGET_TYPE_NAME,
+FA.AUDIT_CODE,
+AE.ENT_NAME,
+RS1.CAR_MARK,
+RS1.CAR_NUMBER,
+RS1.CAR_ENGINE,
+RS1.CAR_INTENT_TYPE_ID,
+RCT.INTENT_TYPE_NAME,
+RS1.CAR_USER,
+RS1.CAR_GRANT_DATE,
+RS1.CAR_GRANT_DOCUMENT,
+RS1.DRIVER_ROLE,
+RS1.DRIVER_SALARY,
+RS1.ACTIVE_YEAR,
+RS1.BALANCE_AMOUNT,
+RS1.REASON_TYPE,
+RS1.GAS_COST_AMOUNT,
+RS1.GAS_COST_BUDGET,
+RS1.SPARE_COST_AMOUNT,
+RS1.SPARE_COST_BUDGET,
+RD.DEPARTMENT_NAME,
+(SELECT LISTAGG(SU.USER_CODE||'-'||SU.USER_NAME, ', ') WITHIN GROUP (ORDER BY TD.ID)  FROM FAS_ADMIN.FAS_AUDIT F
+INNER JOIN FAS_ADMIN.FAS_AUDIT_TEAM_DATA TD ON F.ID = TD.FAS_AUDIT_ID
+INNER JOIN AUD_REG.SYSTEM_USER SU ON TD.AUDITOR_ID = SU.USER_ID
+WHERE TD.ROLE_ID = 3 AND F.ID = FA.ID
+GROUP BY FA.ID) AUDITORS
+FROM AUD_PUBLIC.REG_SURVEY_8 RS1
+INNER JOIN AUD_PUBLIC.REG_SURVEY RS ON RS1.SURVEY_ID = RS.ID
+INNER JOIN AUD_PUBLIC.REF_SURVEY RSU ON RS.SURVEY_ID = RSU.ID
+INNER JOIN AUD_PUBLIC.REF_SURVEY_STATUS RSS ON RS.SURVEY_STATUS_ID = RSS.ID
+INNER JOIN FAS_ADMIN.FAS_AUDIT FA ON RS.SURVEY_AUDIT_ID = FA.ID
+INNER JOIN AUD_ORG.REF_DEPARTMENT RD ON FA.AUDIT_CHECK_DEP_ID = RD.DEPARTMENT_ID
+INNER JOIN AUD_ORG.AUDIT_ENTITY AE ON RS.SURVEY_ENT_ID = AE.ENT_ID
+INNER JOIN AUD_ORG.AUDIT_ENTITY TEZ ON AE.ENT_TEZ = TEZ.ENT_ID
+LEFT JOIN AUD_ORG.AUDIT_ENTITY TTZ ON AE.ENT_TTZ = TTZ.ENT_ID
+INNER JOIN AUD_ORG.REF_BUDGET_TYPE RBT ON AE.ENT_BUDGET_TYPE = RBT.BUDGET_TYPE_ID
+INNER JOIN AUD_PUBLIC.REF_CAR_INTENT_TYPE RCT ON RS1.CAR_INTENT_TYPE_ID = RCT.ID
+WHERE RS1.IS_ACTIVE = 1 AND RS1.SURVEY_ID = :SURVEY_ID`;
+
+const createSqlSurvey8 = `INSERT INTO AUD_PUBLIC.REG_SURVEY_8 ( ID, SURVEY_ID, CAR_MARK, CAR_NUMBER, CAR_ENGINE, CAR_INTENT_TYPE_ID, CAR_USER, CAR_GRANT_DATE, CAR_GRANT_DOCUMENT, DRIVER_ROLE,
+  DRIVER_SALARY, ACTIVE_YEAR, BALANCE_AMOUNT, REASON_TYPE, GAS_COST_AMOUNT, GAS_COST_BUDGET, SPARE_COST_AMOUNT, SPARE_COST_BUDGET, IS_ACTIVE, CREATED_BY, CREATED_DATE) 
+  VALUES ( :P_ID, :SURVEY_ID, :CAR_MARK, :CAR_NUMBER, :CAR_ENGINE, :CAR_INTENT_TYPE_ID, :CAR_USER, :CAR_GRANT_DATE, :CAR_GRANT_DOCUMENT, :DRIVER_ROLE, :DRIVER_SALARY,
+  :ACTIVE_YEAR, :BALANCE_AMOUNT, :REASON_TYPE, :GAS_COST_AMOUNT, :GAS_COST_BUDGET, :SPARE_COST_AMOUNT, :SPARE_COST_BUDGET, 1, :CREATED_BY, SYSDATE)`;
+
+const updateSqlSurvey8 = `UPDATE AUD_PUBLIC.REG_SURVEY_8
+SET CAR_MARK = :CAR_MARK
+, CAR_NUMBER = :CAR_NUMBER
+, CAR_ENGINE = :CAR_ENGINE
+, CAR_INTENT_TYPE_ID = :CAR_INTENT_TYPE_ID
+, CAR_USER = :CAR_USER
+, CAR_GRANT_DATE = :CAR_GRANT_DATE
+, CAR_GRANT_DOCUMENT = :CAR_GRANT_DOCUMENT
+, DRIVER_ROLE = :DRIVER_ROLE
+, DRIVER_SALARY = :DRIVER_SALARY
+, ACTIVE_YEAR = :ACTIVE_YEAR
+, BALANCE_AMOUNT = :BALANCE_AMOUNT
+, REASON_TYPE = :REASON_TYPE
+, GAS_COST_AMOUNT = :GAS_COST_AMOUNT
+, GAS_COST_BUDGET = :GAS_COST_BUDGET
+, SPARE_COST_AMOUNT = :SPARE_COST_AMOUNT
+, SPARE_COST_BUDGET = :SPARE_COST_BUDGET
+, UPDATED_BY = :CREATED_BY
+, UPDATED_DATE = SYSDATE
+WHERE ID = :P_ID`;
+
+const deleteSqlSurvey8 = `UPDATE AUD_PUBLIC.REG_SURVEY_8
+SET IS_ACTIVE = 0,
+UPDATED_BY = :DELETED_BY,
+UPDATED_DATE = SYSDATE
+    WHERE ID = :P_ID`;
+
+async function getSurvey8(context) {
+  let query = baseQuery8;
+  const binds = {};
+  binds.SURVEY_ID = context.SURVEY_ID;
+
+  console.log(binds, query);
+  const result = await database.simpleExecute(query, binds);
+
+  return result.rows;
+}
+
+module.exports.getSurvey8 = getSurvey8;
+
+async function createUpdateSurvey8(data) {
+  if (data.P_ID === null) {
+    const result = await database.simpleExecute(createSqlSurvey8, data, {
+      autoCommit: true,
+    });
+
+    if (result.Error !== undefined) return { code: 405, result };
+    return {
+      message: "success",
+    };
+  } else {
+    const result = await database.simpleExecute(updateSqlSurvey8, data, {
+      autoCommit: true,
+    });
+
+    if (result.rowsAffected) {
+      return {
+        message: "success",
+      };
+    } else {
+      return null;
+    }
+  }
+}
+
+module.exports.createUpdateSurvey8 = createUpdateSurvey8;
+
+async function deleteSurvey8(data) {
+  const result = await database.simpleExecute(deleteSqlSurvey8, data, {
+    autoCommit: true,
+  });
+
+  if (result.rowsAffected) {
+    return {
+      message: "success",
+    };
+  } else {
+    return null;
+  }
+}
+
+module.exports.deleteSurvey8 = deleteSurvey8;
+
+//SURVEY 9
+const baseQuery9 = `SELECT 
+RS1.ID,
+RS.ID SUR_ID,
+TEZ.ENT_NAME,
+TTZ.ENT_NAME,
+RBT.BUDGET_TYPE_NAME,
+FA.AUDIT_CODE,
+AE.ENT_NAME,
+RS1.athlete_lastname,
+RS1.athlete_firstname,
+RS1.athlete_role,
+RS1.athlete_sport,
+RS1.success_olympics,
+RS1.success_world,
+RS1.success_state,
+RS1.salary_title_amount,
+RS1.salary_base_amount,
+RS1.salary_degree_amount,
+RS1.promo_date,
+RS1.promo_document_no,
+RS1.promo_amount,
+RS1.non_money_type,
+RS1.non_money_price,
+RS1.total_amount,
+RD.DEPARTMENT_NAME,
+(SELECT LISTAGG(SU.USER_CODE||'-'||SU.USER_NAME, ', ') WITHIN GROUP (ORDER BY TD.ID)  FROM FAS_ADMIN.FAS_AUDIT F
+INNER JOIN FAS_ADMIN.FAS_AUDIT_TEAM_DATA TD ON F.ID = TD.FAS_AUDIT_ID
+INNER JOIN AUD_REG.SYSTEM_USER SU ON TD.AUDITOR_ID = SU.USER_ID
+WHERE TD.ROLE_ID = 3 AND F.ID = FA.ID
+GROUP BY FA.ID) AUDITORS
+FROM AUD_PUBLIC.REG_SURVEY_9 RS1
+INNER JOIN AUD_PUBLIC.REG_SURVEY RS ON RS1.SURVEY_ID = RS.ID
+INNER JOIN AUD_PUBLIC.REF_SURVEY RSU ON RS.SURVEY_ID = RSU.ID
+INNER JOIN AUD_PUBLIC.REF_SURVEY_STATUS RSS ON RS.SURVEY_STATUS_ID = RSS.ID
+INNER JOIN FAS_ADMIN.FAS_AUDIT FA ON RS.SURVEY_AUDIT_ID = FA.ID
+INNER JOIN AUD_ORG.REF_DEPARTMENT RD ON FA.AUDIT_CHECK_DEP_ID = RD.DEPARTMENT_ID
+INNER JOIN AUD_ORG.AUDIT_ENTITY AE ON RS.SURVEY_ENT_ID = AE.ENT_ID
+INNER JOIN AUD_ORG.AUDIT_ENTITY TEZ ON AE.ENT_TEZ = TEZ.ENT_ID
+LEFT JOIN AUD_ORG.AUDIT_ENTITY TTZ ON AE.ENT_TTZ = TTZ.ENT_ID
+INNER JOIN AUD_ORG.REF_BUDGET_TYPE RBT ON AE.ENT_BUDGET_TYPE = RBT.BUDGET_TYPE_ID
+WHERE RS1.IS_ACTIVE = 1 AND RS1.SURVEY_ID = :SURVEY_ID`;
+
+const createSqlSurvey9 = `INSERT INTO AUD_PUBLIC.REG_SURVEY_9 ( ID, SURVEY_ID, ATHLETE_LASTNAME, ATHLETE_FIRSTNAME, ATHLETE_ROLE, ATHLETE_SPORT, SUCCESS_OLYMPICS, SUCCESS_WORLD, SUCCESS_STATE,
+  SALARY_TITLE_AMOUNT, SALARY_BASE_AMOUNT, SALARY_DEGREE_AMOUNT, PROMO_DATE, PROMO_DOCUMENT_NO, PROMO_AMOUNT, NON_MONEY_TYPE, NON_MONEY_PRICE, TOTAL_AMOUNT, IS_ACTIVE,
+  CREATED_BY, CREATED_DATE) 
+  VALUES ( :P_ID, :SURVEY_ID, :ATHLETE_LASTNAME, :ATHLETE_FIRSTNAME, :ATHLETE_ROLE, :ATHLETE_SPORT, :SUCCESS_OLYMPICS, :SUCCESS_WORLD, :SUCCESS_STATE, :SALARY_TITLE_AMOUNT,
+  :SALARY_BASE_AMOUNT, :SALARY_DEGREE_AMOUNT, :PROMO_DATE, :PROMO_DOCUMENT_NO, :PROMO_AMOUNT, :NON_MONEY_TYPE, :NON_MONEY_PRICE, :TOTAL_AMOUNT, 1, :CREATED_BY, SYSDATE)`;
+
+const updateSqlSurvey9 = `UPDATE AUD_PUBLIC.REG_SURVEY_9
+SET ATHLETE_LASTNAME = :ATHLETE_LASTNAME
+, ATHLETE_FIRSTNAME = :ATHLETE_FIRSTNAME
+, ATHLETE_ROLE = :ATHLETE_ROLE
+, ATHLETE_SPORT = :ATHLETE_SPORT
+, SUCCESS_OLYMPICS = :SUCCESS_OLYMPICS
+, SUCCESS_WORLD = :SUCCESS_WORLD
+, SUCCESS_STATE = :SUCCESS_STATE
+, SALARY_TITLE_AMOUNT = :SALARY_TITLE_AMOUNT
+, SALARY_BASE_AMOUNT = :SALARY_BASE_AMOUNT
+, SALARY_DEGREE_AMOUNT = :SALARY_DEGREE_AMOUNT
+, PROMO_DATE = :PROMO_DATE
+, PROMO_DOCUMENT_NO = :PROMO_DOCUMENT_NO
+, PROMO_AMOUNT = :PROMO_AMOUNT
+, NON_MONEY_TYPE = :NON_MONEY_TYPE
+, NON_MONEY_PRICE = :NON_MONEY_PRICE
+, TOTAL_AMOUNT = :TOTAL_AMOUNT
+, UPDATED_BY = :CREATED_BY
+, UPDATED_DATE = SYSDATE
+WHERE ID = :P_ID`;
+
+const deleteSqlSurvey9 = `UPDATE AUD_PUBLIC.REG_SURVEY_9
+SET IS_ACTIVE = 0,
+UPDATED_BY = :DELETED_BY,
+UPDATED_DATE = SYSDATE
+    WHERE ID = :P_ID`;
+
+async function getSurvey9(context) {
+  let query = baseQuery9;
+  const binds = {};
+  binds.SURVEY_ID = context.SURVEY_ID;
+
+  console.log(binds, query);
+  const result = await database.simpleExecute(query, binds);
+
+  return result.rows;
+}
+
+module.exports.getSurvey9 = getSurvey9;
+
+async function createUpdateSurvey9(data) {
+  if (data.P_ID === null) {
+    const result = await database.simpleExecute(createSqlSurvey9, data, {
+      autoCommit: true,
+    });
+
+    if (result.Error !== undefined) return { code: 405, result };
+    return {
+      message: "success",
+    };
+  } else {
+    const result = await database.simpleExecute(updateSqlSurvey9, data, {
+      autoCommit: true,
+    });
+
+    if (result.rowsAffected) {
+      return {
+        message: "success",
+      };
+    } else {
+      return null;
+    }
+  }
+}
+
+module.exports.createUpdateSurvey9 = createUpdateSurvey9;
+
+async function deleteSurvey9(data) {
+  const result = await database.simpleExecute(deleteSqlSurvey9, data, {
+    autoCommit: true,
+  });
+
+  if (result.rowsAffected) {
+    return {
+      message: "success",
+    };
+  } else {
+    return null;
+  }
+}
+
+module.exports.deleteSurvey9 = deleteSurvey9;
+
+//SURVEY 10
+const baseQuery10 = `SELECT 
+RS1.ID,
+RS.ID SUR_ID,
+TEZ.ENT_NAME,
+TTZ.ENT_NAME,
+RBT.BUDGET_TYPE_NAME,
+FA.AUDIT_CODE,
+AE.ENT_NAME,
+RS1.media_name,
+RS1.media_register_no,
+RS1.media_type,
+RS1.contract_name,
+RS1.contract_date,
+RS1.contract_no,
+RS1.begin_date,
+RS1.end_date,
+RS1.contract_amount,
+RS1.procurement_type,
+RS1.cost_type,
+RS1.is_planned,
+RS1.is_prev,
+RD.DEPARTMENT_NAME,
+(SELECT LISTAGG(SU.USER_CODE||'-'||SU.USER_NAME, ', ') WITHIN GROUP (ORDER BY TD.ID)  FROM FAS_ADMIN.FAS_AUDIT F
+INNER JOIN FAS_ADMIN.FAS_AUDIT_TEAM_DATA TD ON F.ID = TD.FAS_AUDIT_ID
+INNER JOIN AUD_REG.SYSTEM_USER SU ON TD.AUDITOR_ID = SU.USER_ID
+WHERE TD.ROLE_ID = 3 AND F.ID = FA.ID
+GROUP BY FA.ID) AUDITORS
+FROM AUD_PUBLIC.REG_SURVEY_10 RS1
+INNER JOIN AUD_PUBLIC.REG_SURVEY RS ON RS1.SURVEY_ID = RS.ID
+INNER JOIN AUD_PUBLIC.REF_SURVEY RSU ON RS.SURVEY_ID = RSU.ID
+INNER JOIN AUD_PUBLIC.REF_SURVEY_STATUS RSS ON RS.SURVEY_STATUS_ID = RSS.ID
+INNER JOIN FAS_ADMIN.FAS_AUDIT FA ON RS.SURVEY_AUDIT_ID = FA.ID
+INNER JOIN AUD_ORG.REF_DEPARTMENT RD ON FA.AUDIT_CHECK_DEP_ID = RD.DEPARTMENT_ID
+INNER JOIN AUD_ORG.AUDIT_ENTITY AE ON RS.SURVEY_ENT_ID = AE.ENT_ID
+INNER JOIN AUD_ORG.AUDIT_ENTITY TEZ ON AE.ENT_TEZ = TEZ.ENT_ID
+LEFT JOIN AUD_ORG.AUDIT_ENTITY TTZ ON AE.ENT_TTZ = TTZ.ENT_ID
+INNER JOIN AUD_ORG.REF_BUDGET_TYPE RBT ON AE.ENT_BUDGET_TYPE = RBT.BUDGET_TYPE_ID
+WHERE RS1.IS_ACTIVE = 1 AND RS1.SURVEY_ID = :SURVEY_ID`;
+
+const createSqlSurvey10 = `INSERT INTO AUD_PUBLIC.REG_SURVEY_10 ( ID, SURVEY_ID, MEDIA_NAME, MEDIA_REGISTER_NO, MEDIA_TYPE, CONTRACT_NAME, CONTRACT_DATE, CONTRACT_NO, BEGIN_DATE, END_DATE,
+  CONTRACT_AMOUNT, PROCUREMENT_TYPE, COST_TYPE, IS_PLANNED, IS_PREV, IS_ACTIVE, CREATED_BY, CREATED_DATE) 
+  VALUES ( :P_ID, :SURVEY_ID, :MEDIA_NAME, :MEDIA_REGISTER_NO, :MEDIA_TYPE, :CONTRACT_NAME, :CONTRACT_DATE, :CONTRACT_NO, :BEGIN_DATE, :END_DATE, :CONTRACT_AMOUNT,
+  :PROCUREMENT_TYPE, :COST_TYPE, :IS_PLANNED, :IS_PREV, 1, :CREATED_BY, SYSDATE)`;
+
+const updateSqlSurvey10 = `UPDATE AUD_PUBLIC.REG_SURVEY_10
+SET MEDIA_NAME = :MEDIA_NAME
+, MEDIA_REGISTER_NO = :MEDIA_REGISTER_NO
+, MEDIA_TYPE = :MEDIA_TYPE
+, CONTRACT_NAME = :CONTRACT_NAME
+, CONTRACT_DATE = :CONTRACT_DATE
+, CONTRACT_NO = :CONTRACT_NO
+, BEGIN_DATE = :BEGIN_DATE
+, END_DATE = :END_DATE
+, CONTRACT_AMOUNT = :CONTRACT_AMOUNT
+, PROCUREMENT_TYPE = :PROCUREMENT_TYPE
+, COST_TYPE = :COST_TYPE
+, IS_PLANNED = :IS_PLANNED
+, IS_PREV = :IS_PREV
+, UPDATED_BY = :CREATED_BY
+, UPDATED_DATE = SYSDATE
+WHERE ID = :P_ID`;
+
+const deleteSqlSurvey10 = `UPDATE AUD_PUBLIC.REG_SURVEY_10
+SET IS_ACTIVE = 0,
+UPDATED_BY = :DELETED_BY,
+UPDATED_DATE = SYSDATE
+    WHERE ID = :P_ID`;
+
+async function getSurvey10(context) {
+  let query = baseQuery10;
+  const binds = {};
+  binds.SURVEY_ID = context.SURVEY_ID;
+
+  console.log(binds, query);
+  const result = await database.simpleExecute(query, binds);
+
+  return result.rows;
+}
+
+module.exports.getSurvey10 = getSurvey10;
+
+async function createUpdateSurvey10(data) {
+  if (data.P_ID === null) {
+    const result = await database.simpleExecute(createSqlSurvey10, data, {
+      autoCommit: true,
+    });
+
+    if (result.Error !== undefined) return { code: 405, result };
+    return {
+      message: "success",
+    };
+  } else {
+    const result = await database.simpleExecute(updateSqlSurvey10, data, {
+      autoCommit: true,
+    });
+
+    if (result.rowsAffected) {
+      return {
+        message: "success",
+      };
+    } else {
+      return null;
+    }
+  }
+}
+
+module.exports.createUpdateSurvey10 = createUpdateSurvey10;
+
+async function deleteSurvey10(data) {
+  const result = await database.simpleExecute(deleteSqlSurvey10, data, {
+    autoCommit: true,
+  });
+
+  if (result.rowsAffected) {
+    return {
+      message: "success",
+    };
+  } else {
+    return null;
+  }
+}
+
+module.exports.deleteSurvey10 = deleteSurvey10;

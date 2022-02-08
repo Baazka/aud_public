@@ -446,3 +446,613 @@ async function postSurvey2_3Delete(req, res, next) {
 }
 
 module.exports.postSurvey2_3Delete = postSurvey2_3Delete;
+
+//Survey 3
+async function getSurvey3(req, res, next) {
+  try {
+    const context = {};
+    context.SURVEY_ID = parseInt(req.params.surveyid, 10);
+
+    const rows = await survey.getSurvey3(context);
+    res.status(200).json(rows);
+  } catch (err) {
+    next(err);
+  }
+}
+module.exports.getSurvey3 = getSurvey3;
+
+function getData3(req) {
+  let data = {};
+  data = {
+    P_ID: parseInt(req.body.P_ID),
+    PERSON_LASTNAME: req.body.PERSON_LASTNAME,
+    PERSON_FIRSTNAME: req.body.PERSON_FIRSTNAME,
+    PERSON_ROLE: req.body.PERSON_ROLE,
+    PERSON_ROLE_LEVEL: req.body.PERSON_ROLE_LEVEL,
+    WORKING_ROOM: req.body.WORKING_ROOM != null ? parseFloat(req.body.WORKING_ROOM) : null,
+    RESTING_ROOM: req.body.RESTING_ROOM != null ? parseFloat(req.body.RESTING_ROOM) : null,
+    TOILET: req.body.TOILET != null ? parseFloat(req.body.TOILET) : null,
+    MEETING_ROOM: req.body.MEETING_ROOM != null ? parseFloat(req.body.MEETING_ROOM) : null,
+    OTHER_ROOM: req.body.OTHER_ROOM != null ? parseFloat(req.body.OTHER_ROOM) : null,
+    TOTAL_AREA: req.body.TOTAL_AREA != null ? parseFloat(req.body.TOTAL_AREA) : null,
+    CREATED_BY: parseInt(req.body.CREATED_BY),
+  };
+  if (req.body.P_ID != null) {
+    data.P_ID = req.body.P_ID;
+  } else {
+    data.P_ID = null;
+    data.SURVEY_ID = parseInt(req.body.SURVEY_ID);
+  }
+
+  return data;
+}
+
+async function postSurvey3CreateUpdate(req, res, next) {
+  try {
+    let data = getData3(req);
+    if (data.status !== "undefined" && data.status === "failed") {
+      res.status(200).json({ message: "failed" });
+    } else {
+      result = await survey.createUpdateSurvey3(data);
+
+      res.status(200).json(result);
+    }
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports.postSurvey3CreateUpdate = postSurvey3CreateUpdate;
+
+async function postSurvey3Delete(req, res, next) {
+  try {
+    result = await survey.deleteSurvey3({
+      DELETED_BY: req.body.DELETED_BY,
+      P_ID: req.body.P_ID,
+    });
+
+    res.status(200).json(result);
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports.postSurvey3Delete = postSurvey3Delete;
+
+//Survey 4
+async function getSurvey4(req, res, next) {
+  try {
+    const context = {};
+    context.SURVEY_ID = parseInt(req.params.surveyid, 10);
+
+    const rows = await survey.getSurvey4(context);
+    res.status(200).json(rows);
+  } catch (err) {
+    next(err);
+  }
+}
+module.exports.getSurvey4 = getSurvey4;
+
+function getData4(req) {
+  let data = {};
+  data = {
+    P_ID: parseInt(req.body.P_ID),
+    RENT_POSITION: req.body.RENT_POSITION,
+    RENT_REGISTER_NO: req.body.RENT_REGISTER_NO,
+    RENT_ORG_NAME: req.body.RENT_ORG_NAME,
+    INVEST_TYPE_ID: req.body.INVEST_TYPE_ID != null ? parseFloat(req.body.INVEST_TYPE_ID) : null,
+    CONTRACT_NO: req.body.CONTRACT_NO,
+    RENT_SIZE: req.body.RENT_SIZE != null ? parseFloat(req.body.RENT_SIZE) : null,
+    RENT_SQUARE_AMOUNT: req.body.RENT_SQUARE_AMOUNT != null ? parseFloat(req.body.RENT_SQUARE_AMOUNT) : null,
+    RENT_TOTAL_AMOUNT: req.body.RENT_TOTAL_AMOUNT != null ? parseFloat(req.body.RENT_TOTAL_AMOUNT) : null,
+    RENT_DESCRIPTION: req.body.RENT_DESCRIPTION,
+    CREATED_BY: parseInt(req.body.CREATED_BY),
+  };
+  if (req.body.P_ID != null) {
+    data.P_ID = req.body.P_ID;
+  } else {
+    data.P_ID = null;
+    data.SURVEY_ID = parseInt(req.body.SURVEY_ID);
+  }
+
+  return data;
+}
+
+async function postSurvey4CreateUpdate(req, res, next) {
+  try {
+    let data = getData4(req);
+    if (data.status !== "undefined" && data.status === "failed") {
+      res.status(200).json({ message: "failed" });
+    } else {
+      result = await survey.createUpdateSurvey4(data);
+
+      res.status(200).json(result);
+    }
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports.postSurvey4CreateUpdate = postSurvey4CreateUpdate;
+
+async function postSurvey4Delete(req, res, next) {
+  try {
+    result = await survey.deleteSurvey4({
+      DELETED_BY: req.body.DELETED_BY,
+      P_ID: req.body.P_ID,
+    });
+
+    res.status(200).json(result);
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports.postSurvey4Delete = postSurvey4Delete;
+
+//Survey 5
+async function getSurvey5(req, res, next) {
+  try {
+    const context = {};
+    context.SURVEY_ID = parseInt(req.params.surveyid, 10);
+
+    const rows = await survey.getSurvey5(context);
+    res.status(200).json(rows);
+  } catch (err) {
+    next(err);
+  }
+}
+module.exports.getSurvey5 = getSurvey5;
+
+function getData5(req) {
+  let data = {};
+  data = {
+    P_ID: parseInt(req.body.P_ID),
+    DONATION_DATE: dateFormat(req.body.DONATION_DATE, "dd-mmm-yyyy"),
+    DONATION_VALUE: req.body.DONATION_VALUE,
+    PROJECT_INTENT: req.body.PROJECT_INTENT,
+    PROJECT_NAME: req.body.PROJECT_NAME,
+    PROJECT_CODE: req.body.PROJECT_CODE,
+    PROJECT_INTENT_NAME: req.body.PROJECT_INTENT_NAME,
+    PROJECT_INTENT_CODE: req.body.PROJECT_INTENT_CODE,
+    CONTRACT_AMOUNT: req.body.CONTRACT_AMOUNT != null ? parseFloat(req.body.CONTRACT_AMOUNT) : null,
+    CONTRACT_PERIOD: req.body.CONTRACT_PERIOD,
+    CY_INVEST_AMOUNT: req.body.CY_INVEST_AMOUNT != null ? parseFloat(req.body.CY_INVEST_AMOUNT) : null,
+    IS_CONCLUTION: req.body.IS_CONCLUTION != null ? parseFloat(req.body.IS_CONCLUTION) : null,
+    IS_REQUIRED: req.body.IS_REQUIRED != null ? parseFloat(req.body.IS_REQUIRED) : null,
+    INVEST_DESCRIPTION: req.body.INVEST_DESCRIPTION,
+    NGO_REGISTER_NO: req.body.NGO_REGISTER_NO,
+    NGO_NAME: req.body.NGO_NAME,
+    NGO_ACTIVITY: req.body.NGO_ACTIVITY,
+    NGO_CONTACT: req.body.NGO_CONTACT,
+    NGO_EMAIL: req.body.NGO_EMAIL,
+    NGO_HEAD_LASTNAME: req.body.NGO_HEAD_LASTNAME,
+    NGO_HEAD_FIRSTNAME: req.body.NGO_HEAD_FIRSTNAME,
+    CREATED_BY: parseInt(req.body.CREATED_BY),
+  };
+  if (req.body.P_ID != null) {
+    data.P_ID = req.body.P_ID;
+  } else {
+    data.P_ID = null;
+    data.SURVEY_ID = parseInt(req.body.SURVEY_ID);
+  }
+
+  return data;
+}
+
+async function postSurvey5CreateUpdate(req, res, next) {
+  try {
+    let data = getData5(req);
+    if (data.status !== "undefined" && data.status === "failed") {
+      res.status(200).json({ message: "failed" });
+    } else {
+      result = await survey.createUpdateSurvey5(data);
+
+      res.status(200).json(result);
+    }
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports.postSurvey5CreateUpdate = postSurvey5CreateUpdate;
+
+async function postSurvey5Delete(req, res, next) {
+  try {
+    result = await survey.deleteSurvey5({
+      DELETED_BY: req.body.DELETED_BY,
+      P_ID: req.body.P_ID,
+    });
+
+    res.status(200).json(result);
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports.postSurvey5Delete = postSurvey5Delete;
+
+//Survey 6
+async function getSurvey6(req, res, next) {
+  try {
+    const context = {};
+    context.SURVEY_ID = parseInt(req.params.surveyid, 10);
+
+    const rows = await survey.getSurvey6(context);
+    res.status(200).json(rows);
+  } catch (err) {
+    next(err);
+  }
+}
+module.exports.getSurvey6 = getSurvey6;
+
+function getData6(req) {
+  let data = {};
+  data = {
+    P_ID: parseInt(req.body.P_ID),
+    DONATER_NAME: req.body.DONATER_NAME,
+    DONATION_TYPE_ID: req.body.DONATION_TYPE_ID != null ? parseFloat(req.body.DONATION_TYPE_ID) : null,
+    DONATION_AMOUNT: req.body.DONATION_AMOUNT != null ? parseFloat(req.body.DONATION_AMOUNT) : null,
+    ACCOUNT_NAME: req.body.ACCOUNT_NAME,
+    ACCOUNT_AMOUNT: req.body.ACCOUNT_AMOUNT != null ? parseFloat(req.body.ACCOUNT_AMOUNT) : null,
+    COST_DATE: dateFormat(req.body.COST_DATE, "dd-mmm-yyyy"),
+    COST_DOCUMENT_NO: req.body.COST_DOCUMENT_NO,
+    COST_AMOUNT: req.body.COST_AMOUNT != null ? parseFloat(req.body.COST_AMOUNT) : null,
+    COST_ERROR_AMOUNT: req.body.COST_ERROR_AMOUNT != null ? parseFloat(req.body.COST_ERROR_AMOUNT) : null,
+    C2_AMOUNT: req.body.C2_AMOUNT != null ? parseFloat(req.body.C2_AMOUNT) : null,
+    CREATED_BY: parseInt(req.body.CREATED_BY),
+  };
+  if (req.body.P_ID != null) {
+    data.P_ID = req.body.P_ID;
+  } else {
+    data.P_ID = null;
+    data.SURVEY_ID = parseInt(req.body.SURVEY_ID);
+  }
+
+  return data;
+}
+
+async function postSurvey6CreateUpdate(req, res, next) {
+  try {
+    let data = getData6(req);
+    if (data.status !== "undefined" && data.status === "failed") {
+      res.status(200).json({ message: "failed" });
+    } else {
+      result = await survey.createUpdateSurvey6(data);
+
+      res.status(200).json(result);
+    }
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports.postSurvey6CreateUpdate = postSurvey6CreateUpdate;
+
+async function postSurvey6Delete(req, res, next) {
+  try {
+    result = await survey.deleteSurvey6({
+      DELETED_BY: req.body.DELETED_BY,
+      P_ID: req.body.P_ID,
+    });
+
+    res.status(200).json(result);
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports.postSurvey6Delete = postSurvey6Delete;
+
+//Survey 7
+async function getSurvey7(req, res, next) {
+  try {
+    const context = {};
+    context.SURVEY_ID = parseInt(req.params.surveyid, 10);
+
+    const rows = await survey.getSurvey7(context);
+    res.status(200).json(rows);
+  } catch (err) {
+    next(err);
+  }
+}
+module.exports.getSurvey7 = getSurvey7;
+
+function getData7(req) {
+  let data = {};
+  data = {
+    P_ID: parseInt(req.body.P_ID),
+    HOSPITAL_NAME: req.body.HOSPITAL_NAME,
+    PATIENT_COUNT: req.body.PATIENT_COUNT != null ? parseFloat(req.body.PATIENT_COUNT) : null,
+    HOME_PATIENT_COUNT: req.body.HOME_PATIENT_COUNT != null ? parseFloat(req.body.HOME_PATIENT_COUNT) : null,
+    REQUEST_AMOUNT: req.body.REQUEST_AMOUNT != null ? parseFloat(req.body.REQUEST_AMOUNT) : null,
+    INVESTED_AMOUNT: req.body.INVESTED_AMOUNT != null ? parseFloat(req.body.INVESTED_AMOUNT) : null,
+    TOTAL_COST_AMOUNT: req.body.TOTAL_COST_AMOUNT != null ? parseFloat(req.body.TOTAL_COST_AMOUNT) : null,
+    PACKAGE_COUNT: req.body.PACKAGE_COUNT != null ? parseFloat(req.body.PACKAGE_COUNT) : null,
+    PACKAGE_AMOUNT: req.body.PACKAGE_AMOUNT != null ? parseFloat(req.body.PACKAGE_AMOUNT) : null,
+    PROTECTION_COST: req.body.PROTECTION_COST != null ? parseFloat(req.body.PROTECTION_COST) : null,
+    GAS_COST: req.body.GAS_COST != null ? parseFloat(req.body.GAS_COST) : null,
+    PHONE_COST: req.body.PHONE_COST != null ? parseFloat(req.body.PHONE_COST) : null,
+    SALARY_COST: req.body.SALARY_COST != null ? parseFloat(req.body.SALARY_COST) : null,
+    PROCESS_COST: req.body.PROCESS_COST != null ? parseFloat(req.body.PROCESS_COST) : null,
+    PREPARE_COST: req.body.PREPARE_COST != null ? parseFloat(req.body.PREPARE_COST) : null,
+    OTHER_COST: req.body.OTHER_COST != null ? parseFloat(req.body.OTHER_COST) : null,
+    RECEIVE_AMOUNT: req.body.RECEIVE_AMOUNT != null ? parseFloat(req.body.RECEIVE_AMOUNT) : null,
+    DIFF_AMOUNT: req.body.DIFF_AMOUNT != null ? parseFloat(req.body.DIFF_AMOUNT) : null,
+    PACKAGE_C2_COUNT: req.body.PACKAGE_C2_COUNT != null ? parseFloat(req.body.PACKAGE_C2_COUNT) : null,
+    PACKAGE_C2_AMOUNT: req.body.PACKAGE_C2_AMOUNT != null ? parseFloat(req.body.PACKAGE_C2_AMOUNT) : null,
+    COST_DESCRIPTION: req.body.COST_DESCRIPTION,
+    CREATED_BY: parseInt(req.body.CREATED_BY),
+  };
+  if (req.body.P_ID != null) {
+    data.P_ID = req.body.P_ID;
+  } else {
+    data.P_ID = null;
+    data.SURVEY_ID = parseInt(req.body.SURVEY_ID);
+  }
+
+  return data;
+}
+
+async function postSurvey7CreateUpdate(req, res, next) {
+  try {
+    let data = getData7(req);
+    if (data.status !== "undefined" && data.status === "failed") {
+      res.status(200).json({ message: "failed" });
+    } else {
+      result = await survey.createUpdateSurvey7(data);
+
+      res.status(200).json(result);
+    }
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports.postSurvey7CreateUpdate = postSurvey7CreateUpdate;
+
+async function postSurvey7Delete(req, res, next) {
+  try {
+    result = await survey.deleteSurvey7({
+      DELETED_BY: req.body.DELETED_BY,
+      P_ID: req.body.P_ID,
+    });
+
+    res.status(200).json(result);
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports.postSurvey7Delete = postSurvey7Delete;
+
+//Survey 8
+async function getSurvey8(req, res, next) {
+  try {
+    const context = {};
+    context.SURVEY_ID = parseInt(req.params.surveyid, 10);
+
+    const rows = await survey.getSurvey8(context);
+    res.status(200).json(rows);
+  } catch (err) {
+    next(err);
+  }
+}
+module.exports.getSurvey8 = getSurvey8;
+
+function getData8(req) {
+  let data = {};
+  data = {
+    P_ID: parseInt(req.body.P_ID),
+    CAR_MARK: req.body.CAR_MARK,
+    CAR_NUMBER: req.body.CAR_NUMBER,
+    CAR_ENGINE: req.body.CAR_ENGINE != null ? parseFloat(req.body.CAR_ENGINE) : null,
+    CAR_INTENT_TYPE_ID: req.body.CAR_INTENT_TYPE_ID != null ? parseFloat(req.body.CAR_INTENT_TYPE_ID) : null,
+    CAR_USER: req.body.CAR_USER,
+    CAR_GRANT_DATE: dateFormat(req.body.CAR_GRANT_DATE, "dd-mmm-yyyy"),
+    CAR_GRANT_DOCUMENT: req.body.CAR_GRANT_DOCUMENT,
+    DRIVER_ROLE: req.body.DRIVER_ROLE,
+    DRIVER_SALARY: req.body.DRIVER_SALARY != null ? parseFloat(req.body.DRIVER_SALARY) : null,
+    ACTIVE_YEAR: req.body.ACTIVE_YEAR != null ? parseFloat(req.body.ACTIVE_YEAR) : null,
+    BALANCE_AMOUNT: req.body.BALANCE_AMOUNT != null ? parseFloat(req.body.BALANCE_AMOUNT) : null,
+    REASON_TYPE: req.body.REASON_TYPE,
+    GAS_COST_AMOUNT: req.body.GAS_COST_AMOUNT != null ? parseFloat(req.body.GAS_COST_AMOUNT) : null,
+    GAS_COST_BUDGET: req.body.GAS_COST_BUDGET,
+    SPARE_COST_AMOUNT: req.body.SPARE_COST_AMOUNT != null ? parseFloat(req.body.SPARE_COST_AMOUNT) : null,
+    SPARE_COST_BUDGET: req.body.SPARE_COST_BUDGET,
+    CREATED_BY: parseInt(req.body.CREATED_BY),
+  };
+  if (req.body.P_ID != null) {
+    data.P_ID = req.body.P_ID;
+  } else {
+    data.P_ID = null;
+    data.SURVEY_ID = parseInt(req.body.SURVEY_ID);
+  }
+
+  return data;
+}
+
+async function postSurvey8CreateUpdate(req, res, next) {
+  try {
+    let data = getData8(req);
+    if (data.status !== "undefined" && data.status === "failed") {
+      res.status(200).json({ message: "failed" });
+    } else {
+      result = await survey.createUpdateSurvey8(data);
+
+      res.status(200).json(result);
+    }
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports.postSurvey8CreateUpdate = postSurvey8CreateUpdate;
+
+async function postSurvey8Delete(req, res, next) {
+  try {
+    result = await survey.deleteSurvey8({
+      DELETED_BY: req.body.DELETED_BY,
+      P_ID: req.body.P_ID,
+    });
+
+    res.status(200).json(result);
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports.postSurvey8Delete = postSurvey8Delete;
+
+//Survey 9
+async function getSurvey9(req, res, next) {
+  try {
+    const context = {};
+    context.SURVEY_ID = parseInt(req.params.surveyid, 10);
+
+    const rows = await survey.getSurvey9(context);
+    res.status(200).json(rows);
+  } catch (err) {
+    next(err);
+  }
+}
+module.exports.getSurvey9 = getSurvey9;
+
+function getData9(req) {
+  let data = {};
+  data = {
+    P_ID: parseInt(req.body.P_ID),
+    ATHLETE_LASTNAME: req.body.ATHLETE_LASTNAME,
+    ATHLETE_FIRSTNAME: req.body.ATHLETE_FIRSTNAME,
+    ATHLETE_ROLE: req.body.ATHLETE_ROLE,
+    ATHLETE_SPORT: req.body.ATHLETE_SPORT,
+    SUCCESS_OLYMPICS: req.body.SUCCESS_OLYMPICS,
+    SUCCESS_WORLD: req.body.SUCCESS_WORLD,
+    SUCCESS_STATE: req.body.SUCCESS_STATE,
+    SALARY_TITLE_AMOUNT: req.body.SALARY_TITLE_AMOUNT != null ? parseFloat(req.body.SALARY_TITLE_AMOUNT) : null,
+    SALARY_BASE_AMOUNT: req.body.SALARY_BASE_AMOUNT != null ? parseFloat(req.body.SALARY_BASE_AMOUNT) : null,
+    SALARY_DEGREE_AMOUNT: req.body.SALARY_DEGREE_AMOUNT != null ? parseFloat(req.body.SALARY_DEGREE_AMOUNT) : null,
+    PROMO_DATE: dateFormat(req.body.PROMO_DATE, "dd-mmm-yyyy"),
+    PROMO_DOCUMENT_NO: req.body.PROMO_DOCUMENT_NO,
+    PROMO_AMOUNT: req.body.PROMO_AMOUNT != null ? parseFloat(req.body.PROMO_AMOUNT) : null,
+    NON_MONEY_TYPE: req.body.NON_MONEY_TYPE,
+    NON_MONEY_PRICE: req.body.NON_MONEY_PRICE != null ? parseFloat(req.body.NON_MONEY_PRICE) : null,
+    TOTAL_AMOUNT: req.body.TOTAL_AMOUNT != null ? parseFloat(req.body.TOTAL_AMOUNT) : null,
+    CREATED_BY: parseInt(req.body.CREATED_BY),
+  };
+  if (req.body.P_ID != null) {
+    data.P_ID = req.body.P_ID;
+  } else {
+    data.P_ID = null;
+    data.SURVEY_ID = parseInt(req.body.SURVEY_ID);
+  }
+
+  return data;
+}
+
+async function postSurvey9CreateUpdate(req, res, next) {
+  try {
+    let data = getData9(req);
+    if (data.status !== "undefined" && data.status === "failed") {
+      res.status(200).json({ message: "failed" });
+    } else {
+      result = await survey.createUpdateSurvey9(data);
+
+      res.status(200).json(result);
+    }
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports.postSurvey9CreateUpdate = postSurvey9CreateUpdate;
+
+async function postSurvey9Delete(req, res, next) {
+  try {
+    result = await survey.deleteSurvey9({
+      DELETED_BY: req.body.DELETED_BY,
+      P_ID: req.body.P_ID,
+    });
+
+    res.status(200).json(result);
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports.postSurvey9Delete = postSurvey9Delete;
+
+//Survey 10
+async function getSurvey10(req, res, next) {
+  try {
+    const context = {};
+    context.SURVEY_ID = parseInt(req.params.surveyid, 10);
+
+    const rows = await survey.getSurvey10(context);
+    res.status(200).json(rows);
+  } catch (err) {
+    next(err);
+  }
+}
+module.exports.getSurvey10 = getSurvey10;
+
+function getData10(req) {
+  let data = {};
+  data = {
+    P_ID: parseInt(req.body.P_ID),
+    MEDIA_NAME: req.body.MEDIA_NAME,
+    MEDIA_REGISTER_NO: req.body.MEDIA_REGISTER_NO,
+    MEDIA_TYPE: req.body.MEDIA_TYPE,
+    CONTRACT_NAME: req.body.CONTRACT_NAME,
+    CONTRACT_DATE: dateFormat(req.body.CONTRACT_DATE, "dd-mmm-yyyy"),
+    CONTRACT_NO: req.body.CONTRACT_NO,
+    BEGIN_DATE: dateFormat(req.body.BEGIN_DATE, "dd-mmm-yyyy"),
+    END_DATE: dateFormat(req.body.END_DATE, "dd-mmm-yyyy"),
+    CONTRACT_AMOUNT: req.body.CONTRACT_AMOUNT != null ? parseFloat(req.body.CONTRACT_AMOUNT) : null,
+    PROCUREMENT_TYPE: req.body.PROCUREMENT_TYPE,
+    COST_TYPE: req.body.COST_TYPE,
+    IS_PLANNED: req.body.IS_PLANNED != null ? parseFloat(req.body.IS_PLANNED) : null,
+    IS_PREV: req.body.IS_PREV != null ? parseFloat(req.body.IS_PREV) : null,
+    CREATED_BY: parseInt(req.body.CREATED_BY),
+  };
+  if (req.body.P_ID != null) {
+    data.P_ID = req.body.P_ID;
+  } else {
+    data.P_ID = null;
+    data.SURVEY_ID = parseInt(req.body.SURVEY_ID);
+  }
+
+  return data;
+}
+
+async function postSurvey10CreateUpdate(req, res, next) {
+  try {
+    let data = getData10(req);
+    if (data.status !== "undefined" && data.status === "failed") {
+      res.status(200).json({ message: "failed" });
+    } else {
+      result = await survey.createUpdateSurvey10(data);
+
+      res.status(200).json(result);
+    }
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports.postSurvey10CreateUpdate = postSurvey10CreateUpdate;
+
+async function postSurvey10Delete(req, res, next) {
+  try {
+    result = await survey.deleteSurvey10({
+      DELETED_BY: req.body.DELETED_BY,
+      P_ID: req.body.P_ID,
+    });
+
+    res.status(200).json(result);
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports.postSurvey10Delete = postSurvey10Delete;
