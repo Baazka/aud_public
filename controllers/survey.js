@@ -15,6 +15,20 @@ async function get(req, res, next) {
 }
 module.exports.get = get;
 
+//ENTITY SURVEY LIST
+async function getEntList(req, res, next) {
+  try {
+    const context = {};
+    context.ENT_ID = parseInt(req.params.ent_id, 10);
+
+    const rows = await survey.getEntList(context);
+    res.status(200).json(rows);
+  } catch (err) {
+    next(err);
+  }
+}
+module.exports.getEntList = getEntList;
+
 //Survey 1
 async function getSurvey1(req, res, next) {
   try {
