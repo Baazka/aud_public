@@ -5,7 +5,7 @@ const survey = require("../controllers/survey.js");
 
 router.route("/survey/:yearid/:entid").get(survey.get);
 //ENTITY SURVEY LIST
-router.route("/survey/:ent_id").get(survey.getEntList);
+router.route("/surveyList/:ent_id").get(survey.getEntList);
 //survey1
 router.route("/survey1/:surveyid").get(survey.getSurvey1);
 router.route("/survey1Insert").post(survey.postSurvey1CreateUpdate);
