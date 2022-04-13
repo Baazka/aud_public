@@ -1182,13 +1182,14 @@ async function getSurvey6(context) {
 module.exports.getSurvey6 = getSurvey6;
 
 async function createUpdateSurvey6(data) {
-  console.log(data, "S6");
   if (data.P_ID === null) {
     const result = await database.simpleExecute(createSqlSurvey6, data, {
       autoCommit: true,
     });
 
     if (result.Error !== undefined) return { code: 405, result };
+
+    //console.log(result, "Result");
     return {
       message: "success",
     };
@@ -1198,6 +1199,7 @@ async function createUpdateSurvey6(data) {
     });
 
     if (result.rowsAffected) {
+      //console.log(result, "UPdateResult");
       return {
         message: "success",
       };
