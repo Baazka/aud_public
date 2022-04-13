@@ -1759,3 +1759,51 @@ async function deleteSurvey10(data) {
 }
 
 module.exports.deleteSurvey10 = deleteSurvey10;
+
+//UPDATE STATUS
+const updateStatusSave = `UPDATE AUD_PUBLIC.REG_SURVEY
+SET SURVEY_STATUS_ID = 2
+, UPDATED_BY = :CREATED_BY
+, UPDATED_DATE = SYSDATE
+WHERE ID = :P_ID`;
+const updateStatusSent = `UPDATE AUD_PUBLIC.REG_SURVEY
+SET SURVEY_STATUS_ID = 3
+, UPDATED_BY = :CREATED_BY
+, UPDATED_DATE = SYSDATE
+WHERE ID = :P_ID`;
+const updateStatusConfirm = `UPDATE AUD_PUBLIC.REG_SURVEY
+SET SURVEY_STATUS_ID = 4
+, UPDATED_BY = :CREATED_BY
+, UPDATED_DATE = SYSDATE
+WHERE ID = :P_ID`;
+const updateStatusReturn = `UPDATE AUD_PUBLIC.REG_SURVEY
+SET SURVEY_STATUS_ID = 5
+, UPDATED_BY = :CREATED_BY
+, UPDATED_DATE = SYSDATE
+WHERE ID = :P_ID`;
+
+async function UpdateStatus(data) {
+  let query = "";
+  const binds = {};
+  binds.CREATED_BY = data.CREATED_BY;
+  binds.P_ID = data.SURVEY_ID;
+
+  if (data.btnID === 2) query = updateStatusSave;
+  else if (data.btnID === 3) query = updateStatusSent;
+  else if (data.btnID === 4) query = updateStatusConfirm;
+  else if (data.btnID === 5) query = updateStatusReturn;
+
+  const result = await database.simpleExecute(query, binds, {
+    autoCommit: true,
+  });
+
+  if (result.rowsAffected) {
+    return {
+      message: "success",
+    };
+  } else {
+    return null;
+  }
+}
+
+module.exports.UpdateStatus = UpdateStatus;

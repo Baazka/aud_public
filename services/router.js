@@ -55,4 +55,7 @@ router.route("/survey10/:surveyid").get(survey.getSurvey10);
 router.route("/survey10Insert").post(survey.postSurvey10CreateUpdate);
 router.route("/survey10Delete").post(survey.postSurvey10Delete);
 
+//surveyStatus
+router.route("/surveyStatus").post(survey.postStatus);
+
 module.exports = router;
