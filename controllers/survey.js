@@ -1344,6 +1344,7 @@ async function postSurvey10Delete(req, res, next) {
 module.exports.postSurvey10Delete = postSurvey10Delete;
 
 async function postStatus(req, res, next) {
+  console.log(req.body, "Irsen");
   try {
     let data = {
       btnID: parseInt(req.body.BtnID),
