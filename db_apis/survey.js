@@ -144,7 +144,7 @@ async function getSurvey1(context) {
   const binds = {};
   binds.SURVEY_ID = context.SURVEY_ID;
 
-  console.log(binds, query);
+  //console.log(binds, query);
   const result = await database.simpleExecute(query, binds);
 
   return result.rows;
@@ -201,7 +201,7 @@ async function createUpdateSurvey1(data) {
     });
 
     if (result.Error !== undefined) return { code: 405, result };
-    console.log(result);
+    //console.log(result);
     return {
       message: "success",
     };
@@ -548,7 +548,7 @@ async function getSurvey2_2(context) {
   const binds = {};
   binds.SURVEY_ID = context.SURVEY_ID;
 
-  console.log(binds, query);
+  //console.log(binds, query);
   const result = await database.simpleExecute(query, binds);
 
   return result.rows;
@@ -674,7 +674,7 @@ async function getSurvey2_3(context) {
   const binds = {};
   binds.SURVEY_ID = context.SURVEY_ID;
 
-  console.log(binds, query);
+  //console.log(binds, query);
   const result = await database.simpleExecute(query, binds);
 
   return result.rows;
@@ -792,7 +792,7 @@ async function getSurvey3(context) {
   const binds = {};
   binds.SURVEY_ID = context.SURVEY_ID;
 
-  console.log(binds, query);
+  //console.log(binds, query);
   const result = await database.simpleExecute(query, binds);
 
   return result.rows;
@@ -911,7 +911,7 @@ async function getSurvey4(context) {
   const binds = {};
   binds.SURVEY_ID = context.SURVEY_ID;
 
-  console.log(binds, query);
+  //console.log(binds, query);
   const result = await database.simpleExecute(query, binds);
 
   return result.rows;
@@ -1052,7 +1052,7 @@ async function getSurvey5(context) {
   const binds = {};
   binds.SURVEY_ID = context.SURVEY_ID;
 
-  console.log(binds, query);
+  //console.log(binds, query);
   const result = await database.simpleExecute(query, binds);
 
   return result.rows;
@@ -1173,7 +1173,7 @@ async function getSurvey6(context) {
   const binds = {};
   binds.SURVEY_ID = context.SURVEY_ID;
 
-  console.log(binds, query);
+  //console.log(binds, query);
   const result = await database.simpleExecute(query, binds);
 
   return result.rows;
@@ -1182,6 +1182,7 @@ async function getSurvey6(context) {
 module.exports.getSurvey6 = getSurvey6;
 
 async function createUpdateSurvey6(data) {
+  console.log(data, "S6");
   if (data.P_ID === null) {
     const result = await database.simpleExecute(createSqlSurvey6, data, {
       autoCommit: true,
@@ -1314,7 +1315,7 @@ async function getSurvey7(context) {
   const binds = {};
   binds.SURVEY_ID = context.SURVEY_ID;
 
-  console.log(binds, query);
+  //console.log(binds, query);
   const result = await database.simpleExecute(query, binds);
 
   return result.rows;
@@ -1449,7 +1450,7 @@ async function getSurvey8(context) {
   const binds = {};
   binds.SURVEY_ID = context.SURVEY_ID;
 
-  console.log(binds, query);
+  //console.log(binds, query);
   const result = await database.simpleExecute(query, binds);
 
   return result.rows;
@@ -1581,7 +1582,7 @@ async function getSurvey9(context) {
   const binds = {};
   binds.SURVEY_ID = context.SURVEY_ID;
 
-  console.log(binds, query);
+  //console.log(binds, query);
   const result = await database.simpleExecute(query, binds);
 
   return result.rows;
@@ -1706,7 +1707,7 @@ async function getSurvey10(context) {
   const binds = {};
   binds.SURVEY_ID = context.SURVEY_ID;
 
-  console.log(binds, query);
+  //console.log(binds, query);
   const result = await database.simpleExecute(query, binds);
 
   return result.rows;
