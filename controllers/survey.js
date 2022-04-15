@@ -576,6 +576,9 @@ function getData2_3(req) {
       req.body.SUPPORT_AMOUNT != null
         ? parseFloat(req.body.SUPPORT_AMOUNT)
         : null,
+    ASSESSMENT:
+      req.body.ASSESSMENT != null ? parseInt(req.body.ASSESSMENT) : null,
+    ASSESSMENT_DESC: req.body.ASSESSMENT_DESC,
     CREATED_BY: parseInt(req.body.CREATED_BY),
   };
   if (req.body.P_ID != null) {
@@ -1104,6 +1107,7 @@ function getData8(req) {
         ? parseFloat(req.body.CAR_INTENT_TYPE_ID)
         : null,
     CAR_USER: req.body.CAR_USER,
+    CAR_GRANT_NAME: req.body.CAR_GRANT_NAME,
     CAR_GRANT_DATE: dateFormat(req.body.CAR_GRANT_DATE, "dd-mmm-yyyy"),
     CAR_GRANT_DOCUMENT: req.body.CAR_GRANT_DOCUMENT,
     DRIVER_ROLE: req.body.DRIVER_ROLE,
@@ -1344,7 +1348,7 @@ async function postSurvey10Delete(req, res, next) {
 module.exports.postSurvey10Delete = postSurvey10Delete;
 
 async function postStatus(req, res, next) {
-  console.log(req.body, "Irsen");
+  //console.log(req.body, "Irsen");
   try {
     let data = {
       btnID: parseInt(req.body.BtnID),
