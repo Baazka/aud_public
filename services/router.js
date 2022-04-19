@@ -2,6 +2,7 @@ const express = require("express");
 const { route } = require("express/lib/application");
 const router = new express.Router();
 const survey = require("../controllers/survey.js");
+const report = require("../controllers/report.js");
 
 router.route("/survey/:yearid/:entid").get(survey.get);
 //ENTITY SURVEY LIST
@@ -57,5 +58,9 @@ router.route("/survey10Delete").post(survey.postSurvey10Delete);
 
 //surveyStatus
 router.route("/surveyStatus").post(survey.postStatus);
+
+//Report
+
+router.route("/reportGuitsetgel").post(report.postGuitsetgel);
 
 module.exports = router;
