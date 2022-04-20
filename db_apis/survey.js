@@ -1771,13 +1771,18 @@ SET SURVEY_STATUS_ID = 3
 , UPDATED_BY = :CREATED_BY
 , UPDATED_DATE = SYSDATE
 WHERE ID = :P_ID`;
-const updateStatusConfirm = `UPDATE AUD_PUBLIC.REG_SURVEY
+const updateStatusUseless = `UPDATE AUD_PUBLIC.REG_SURVEY
 SET SURVEY_STATUS_ID = 4
 , UPDATED_BY = :CREATED_BY
 , UPDATED_DATE = SYSDATE
 WHERE ID = :P_ID`;
-const updateStatusReturn = `UPDATE AUD_PUBLIC.REG_SURVEY
+const updateStatusConfirm = `UPDATE AUD_PUBLIC.REG_SURVEY
 SET SURVEY_STATUS_ID = 5
+, UPDATED_BY = :CREATED_BY
+, UPDATED_DATE = SYSDATE
+WHERE ID = :P_ID`;
+const updateStatusReturn = `UPDATE AUD_PUBLIC.REG_SURVEY
+SET SURVEY_STATUS_ID = 6
 , UPDATED_BY = :CREATED_BY
 , UPDATED_DATE = SYSDATE
 WHERE ID = :P_ID`;
@@ -1790,8 +1795,9 @@ async function UpdateStatus(data) {
 
   if (data.btnID === 2) query = updateStatusSave;
   else if (data.btnID === 3) query = updateStatusSent;
-  else if (data.btnID === 4) query = updateStatusConfirm;
-  else if (data.btnID === 5) query = updateStatusReturn;
+  else if (data.btnID === 4) query = updateStatusUseless;
+  else if (data.btnID === 5) query = updateStatusConfirm;
+  else if (data.btnID === 6) query = updateStatusReturn;
 
   const result = await database.simpleExecute(query, binds, {
     autoCommit: true,
