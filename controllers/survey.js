@@ -225,7 +225,7 @@ function getData2_1(req) {
       req.body.HOLDING_PERCENT != null
         ? parseFloat(req.body.HOLDING_PERCENT)
         : null,
-    REG_DATE: dateFormat(req.body.CREATED_DATE, "dd-mmm-yyyy"),
+    REG_DATE: dateFormat(req.body.REG_DATE, "dd-mmm-yyyy"), //dateFormat(req.body.CREATED_DATE, "dd-mmm-yyyy"),
     REG_DOCUMENT_NO: req.body.REG_DOCUMENT_NO,
     IS_LEGAL18:
       req.body.IS_LEGAL18 != null ? parseFloat(req.body.IS_LEGAL18) : null,
