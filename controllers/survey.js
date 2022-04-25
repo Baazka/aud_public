@@ -435,7 +435,7 @@ function getData2_2(req) {
     LONG_DEBT_PAYMENT: req.body.LONG_DEBT_PAYMENT,
     LONG_DEBT_IS_COMPLETE:
       req.body.LONG_DEBT_IS_COMPLETE != null
-        ? parseFloat(req.body.LONG_DEBT_IS_COMPLETE)
+        ? parseInt(req.body.LONG_DEBT_IS_COMPLETE)
         : null,
     PROPERTY_PREV_AMOUNT:
       req.body.PROPERTY_PREV_AMOUNT != null
