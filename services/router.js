@@ -3,6 +3,7 @@ const { route } = require("express/lib/application");
 const router = new express.Router();
 const survey = require("../controllers/survey.js");
 const report = require("../controllers/report.js");
+const auditor = require("../controllers/auditor.js");
 
 router.route("/survey/:yearid/:entid").get(survey.get);
 //ENTITY SURVEY LIST
@@ -63,4 +64,6 @@ router.route("/surveyStatus").post(survey.postStatus);
 
 router.route("/reportGuitsetgel").post(report.postGuitsetgel);
 
+//Auditor
+router.route("/auditorList").post(auditor.postList);
 module.exports = router;
