@@ -1,11 +1,16 @@
 const express = require("express");
 const { route } = require("express/lib/application");
 const router = new express.Router();
+//Lib
+const library = require("../controllers/library");
 const survey = require("../controllers/survey.js");
 const report = require("../controllers/report.js");
 const auditor = require("../controllers/auditor.js");
 
 router.route("/survey/:yearid/:entid").get(survey.get);
+
+//Lib
+router.route("/library/:name").get(library.get);
 //ENTITY SURVEY LIST
 router.route("/surveyList/:ent_id").get(survey.getEntList);
 //survey1
