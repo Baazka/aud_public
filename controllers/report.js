@@ -12,3 +12,24 @@ async function postGuitsetgel(req, res, next) {
   }
 }
 module.exports.postGuitsetgel = postGuitsetgel;
+
+//Ilgeegeegui
+async function postUnsent(req, res, next) {
+  try {
+    const context = {};
+    context.survey_id = parseInt(req.body.SURVEY_ID, 10);
+    context.dep_id =
+      req.body.DEPARTMENT_ID == "" ||
+      req.body.DEPARTMENT_ID == "null" ||
+      req.body.DEPARTMENT_ID == null ||
+      req.body.DEPARTMENT_ID == "undefined" ||
+      req.body.DEPARTMENT_ID == undefined
+        ? null
+        : parseInt(req.body.DEPARTMENT_ID, 10);
+    const rows = await report.postUnsent(context);
+    res.status(200).json(rows);
+  } catch (err) {
+    next(err);
+  }
+}
+module.exports.postUnsent = postUnsent;

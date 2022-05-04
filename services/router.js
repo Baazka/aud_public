@@ -68,6 +68,7 @@ router.route("/surveyStatus").post(survey.postStatus);
 //Report
 
 router.route("/reportGuitsetgel").post(report.postGuitsetgel);
+router.route("/reportUnsent").post(report.postUnsent);
 
 //Auditor
 router.route("/auditorList").post(auditor.postList);
