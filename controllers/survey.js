@@ -1347,6 +1347,7 @@ async function postSurvey10Delete(req, res, next) {
 
 module.exports.postSurvey10Delete = postSurvey10Delete;
 
+//Change Status
 async function postStatus(req, res, next) {
   //console.log(req.body, "Irsen");
   try {
@@ -1368,3 +1369,49 @@ async function postStatus(req, res, next) {
 }
 
 module.exports.postStatus = postStatus;
+
+//Survey Return
+async function getSurveyReturn(req, res, next) {
+  try {
+    const context = {};
+    context.SURVEY_ID = parseInt(req.params.surveyid, 10);
+
+    const rows = await survey.getSurveyReturn(context);
+    res.status(200).json(rows);
+  } catch (err) {
+    next(err);
+  }
+}
+module.exports.getSurveyReturn = getSurveyReturn;
+
+async function postSurveyReturnCreateUpdate(req, res, next) {
+  try {
+    let data = {
+      P_ID: req.body.P_ID != null ? req.body.P_ID : null,
+      SURVEY_ID: parseInt(req.body.SURVEY_ID),
+      RETURN_DESC: req.body.RETURN_DESC,
+      CREATED_BY: parseInt(req.body.CREATED_BY),
+    };
+    result = await survey.createUpdateSurveyReturn(data);
+    res.status(200).json(result);
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports.postSurveyReturnCreateUpdate = postSurveyReturnCreateUpdate;
+
+async function postSurveyReturnDelete(req, res, next) {
+  try {
+    result = await survey.deleteSurveyReturn({
+      DELETED_BY: req.body.DELETED_BY,
+      P_ID: req.body.P_ID,
+    });
+
+    res.status(200).json(result);
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports.postSurveyReturnDelete = postSurveyReturnDelete;

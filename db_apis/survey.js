@@ -1781,11 +1781,6 @@ SET SURVEY_STATUS_ID = 5
 , UPDATED_BY = :CREATED_BY
 , UPDATED_DATE = SYSDATE
 WHERE ID = :P_ID`;
-const updateStatusReturn = `UPDATE AUD_PUBLIC.REG_SURVEY
-SET SURVEY_STATUS_ID = 6
-, UPDATED_BY = :CREATED_BY
-, UPDATED_DATE = SYSDATE
-WHERE ID = :P_ID`;
 
 async function UpdateStatus(data) {
   let query = "";
@@ -1797,7 +1792,7 @@ async function UpdateStatus(data) {
   else if (data.btnID === 3) query = updateStatusSent;
   else if (data.btnID === 4) query = updateStatusUseless;
   else if (data.btnID === 5) query = updateStatusConfirm;
-  else if (data.btnID === 6) query = updateStatusReturn;
+  //else if (data.btnID === 6) query = updateStatusReturn;
 
   const result = await database.simpleExecute(query, binds, {
     autoCommit: true,
@@ -1813,3 +1808,99 @@ async function UpdateStatus(data) {
 }
 
 module.exports.UpdateStatus = UpdateStatus;
+
+//SURVEY_RETURN
+const baseQueryReturn = `SELECT SR.ID, SR.SURVEY_ID, SR.RETURN_DESC, SR.CREATED_DATE, SU.USER_NAME FROM AUD_PUBLIC.REG_SURVEY_RETURN SR 
+LEFT JOIN AUD_REG.SYSTEM_USER SU ON SR.CREATED_BY = SU.USER_ID
+WHERE SR.IS_ACTIVE = 1 AND SR.SURVEY_ID = :SURVEY_ID
+ORDER BY CREATED_DATE`;
+
+const createSqlReturn = `INSERT INTO AUD_PUBLIC.REG_SURVEY_RETURN ( ID, SURVEY_ID, RETURN_DESC, IS_ACTIVE, CREATED_BY, CREATED_DATE) 
+  VALUES (:P_ID, :SURVEY_ID, :RETURN_DESC, 1, :CREATED_BY, SYSDATE)`;
+
+const updateSqlReturn = `UPDATE AUD_PUBLIC.REG_SURVEY_RETURN
+  SET RETURN_DESC = :RETURN_DESC, SURVEY_ID = :SURVEY_ID,
+  UPDATED_BY = :CREATED_BY, 
+  UPDATED_DATE = SYSDATE
+  WHERE ID = :P_ID`;
+
+const deleteSqlReturn = `UPDATE AUD_PUBLIC.REG_SURVEY_RETURN
+  SET IS_ACTIVE = 0,
+  UPDATED_BY = :DELETED_BY,
+  UPDATED_DATE = SYSDATE
+  WHERE ID = :P_ID`;
+
+const updateStatusReturn = `UPDATE AUD_PUBLIC.REG_SURVEY
+  SET SURVEY_STATUS_ID = 6
+  , UPDATED_BY = :CREATED_BY
+  , UPDATED_DATE = SYSDATE
+  WHERE ID = :P_ID`;
+
+async function getSurveyReturn(context) {
+  let query = baseQueryReturn;
+  const binds = {};
+  binds.SURVEY_ID = context.SURVEY_ID;
+
+  const result = await database.simpleExecute(query, binds);
+
+  return result.rows;
+}
+
+module.exports.getSurveyReturn = getSurveyReturn;
+
+async function createUpdateSurveyReturn(data) {
+  if (data.P_ID === null) {
+    const result = await database.simpleExecute(createSqlReturn, data, {
+      autoCommit: true,
+    });
+
+    if (result.Error !== undefined) return { code: 405, result };
+    else {
+      const binds = {};
+      binds.CREATED_BY = data.CREATED_BY;
+      binds.P_ID = data.SURVEY_ID;
+
+      const resultStatus = await database.simpleExecute(
+        updateStatusReturn,
+        binds,
+        {
+          autoCommit: true,
+        }
+      );
+      if (resultStatus.Error !== undefined) return { code: 405, resultStatus };
+    }
+    return {
+      message: "success",
+    };
+  } else {
+    const result = await database.simpleExecute(updateSqlReturn, data, {
+      autoCommit: true,
+    });
+
+    if (result.rowsAffected) {
+      return {
+        message: "success",
+      };
+    } else {
+      return null;
+    }
+  }
+}
+
+module.exports.createUpdateSurveyReturn = createUpdateSurveyReturn;
+
+async function deleteSurveyReturn(data) {
+  const result = await database.simpleExecute(deleteSqlReturn, data, {
+    autoCommit: true,
+  });
+
+  if (result.rowsAffected) {
+    return {
+      message: "success",
+    };
+  } else {
+    return null;
+  }
+}
+
+module.exports.deleteSurveyReturn = deleteSurveyReturn;

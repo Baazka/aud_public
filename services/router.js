@@ -65,6 +65,11 @@ router.route("/survey10Delete").post(survey.postSurvey10Delete);
 //surveyStatus
 router.route("/surveyStatus").post(survey.postStatus);
 
+//surveyReturn
+router.route("/surveyReturn/:surveyid").get(survey.getSurveyReturn);
+router.route("/surveyReturnInsert").post(survey.postSurveyReturnCreateUpdate);
+router.route("/surveyReturnDelete").post(survey.postSurveyReturnDelete);
+
 //Report
 
 router.route("/reportGuitsetgel").post(report.postGuitsetgel);
