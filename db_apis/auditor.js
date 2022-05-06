@@ -29,7 +29,7 @@ async function postList(context) {
   }
   query += `\n GROUP BY FA.ID, FA.ENT_ID, FA.AUDIT_CODE, NVL(FDD.IND_VALUE,AE.ENT_NAME),
   CASE WHEN RBT.BUDGET_TYPE_ID = 3 AND SE.BUDGET_TYPE_ID = 5 THEN 'Анхан шатны эмнэлэг' ELSE RBT.BUDGET_SHORT_NAME END, SU.USER_NAME, SU.USER_CODE`;
-  query += `\n ORDER BY NVL(FDD.IND_VALUE,AE.ENT_NAME), BT.BUDGET_SHORT_NAME`;
+  query += `\n ORDER BY NVL(FDD.IND_VALUE,AE.ENT_NAME)`;
   const result = await database.simpleExecute(query, binds);
 
   return result.rows;
