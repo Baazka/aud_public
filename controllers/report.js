@@ -33,3 +33,18 @@ async function postUnsent(req, res, next) {
   }
 }
 module.exports.postUnsent = postUnsent;
+
+//Zadargaa
+async function postAuditorZadargaa(req, res, next) {
+  try {
+    const context = {};
+    context.userid = parseInt(req.body.USER_ID, 10);
+    context.usertype = req.body.USER_TYPE != null ? req.body.USER_TYPE : null;
+
+    const rows = await report.postAuditorZadargaa(context);
+    res.status(200).json(rows);
+  } catch (err) {
+    next(err);
+  }
+}
+module.exports.postAuditorZadargaa = postAuditorZadargaa;

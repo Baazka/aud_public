@@ -74,6 +74,7 @@ router.route("/surveyReturnDelete").post(survey.postSurveyReturnDelete);
 
 router.route("/reportGuitsetgel").post(report.postGuitsetgel);
 router.route("/reportUnsent").post(report.postUnsent);
+router.route("/reportZadargaa").post(report.postAuditorZadargaa);
 
 //Auditor
 router.route("/auditorList").post(auditor.postList);
