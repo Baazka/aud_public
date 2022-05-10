@@ -1836,6 +1836,10 @@ const updateStatusReturn = `UPDATE AUD_PUBLIC.REG_SURVEY
   , UPDATED_DATE = SYSDATE
   WHERE ID = :P_ID`;
 
+const findEmail = `SELECT EE.EMAIL FROM FAS_ADMIN.FAS_ENT_EMAIL EE
+INNER JOIN AUD_PUBLIC.REG_SURVEY RS ON EE.ENT_ID = RS.SURVEY_ENT_ID AND EE.FAS_AUDIT_ID = RS.SURVEY_AUDIT_ID
+WHERE RS.ID = :P_ID`;
+
 async function getSurveyReturn(context) {
   let query = baseQueryReturn;
   const binds = {};
@@ -1849,6 +1853,7 @@ async function getSurveyReturn(context) {
 module.exports.getSurveyReturn = getSurveyReturn;
 
 async function createUpdateSurveyReturn(data) {
+  let resultEmail = {};
   if (data.P_ID === null) {
     const result = await database.simpleExecute(createSqlReturn, data, {
       autoCommit: true,
@@ -1856,7 +1861,7 @@ async function createUpdateSurveyReturn(data) {
 
     if (result.Error !== undefined) return { code: 405, result };
     else {
-      const binds = {};
+      let binds = {};
       binds.CREATED_BY = data.CREATED_BY;
       binds.P_ID = data.SURVEY_ID;
 
@@ -1868,9 +1873,19 @@ async function createUpdateSurveyReturn(data) {
         }
       );
       if (resultStatus.Error !== undefined) return { code: 405, resultStatus };
+      //console.log(binds.P_ID);
+      else {
+        binds = {};
+        binds.P_ID = data.SURVEY_ID;
+        resultEmail = await database.simpleExecute(findEmail, binds);
+        if (resultEmail.errorNum !== undefined) {
+          return { code: 405, resultEmail };
+        }
+      }
     }
     return {
       message: "success",
+      email: resultEmail.rows?.[0].EMAIL,
     };
   } else {
     const result = await database.simpleExecute(updateSqlReturn, data, {

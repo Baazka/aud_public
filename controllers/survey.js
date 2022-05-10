@@ -1,5 +1,6 @@
 const survey = require("../db_apis/survey");
 var dateFormat = require("dateformat");
+const nodemailer = require("nodemailer");
 
 async function get(req, res, next) {
   try {
@@ -1393,7 +1394,95 @@ async function postSurveyReturnCreateUpdate(req, res, next) {
       CREATED_BY: parseInt(req.body.CREATED_BY),
     };
     result = await survey.createUpdateSurveyReturn(data);
-    res.status(200).json(result);
+
+    let email = "";
+    email = result.email;
+
+    if (email !== "") {
+      //Email
+      let transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 587,
+        secureConnection: "true",
+        auth: {
+          user: "mnao.mtt@gmail.com", // generated ethereal user
+          pass: "auZ'r5dU6qR)sf^b", // generated ethereal password
+        },
+      });
+
+      var mailOptions = {
+        from: "mnao.mtt@gmail.com",
+        to: email,
+        subject: "Төрийн аудитын байгууллага",
+        text: "Төрийн аудитын байгууллага",
+        html: `<!DOCTYPE html>
+  <html>
+  <body>  
+  
+  <div class = "container">
+    <p>Сайн байна уу?</p>
+  </div>
+  
+  <div class = "container topSpaceLittle">
+    <p>
+      Судалгаагаа аудиторуудын өгсөн чиглэл зөвлөмжийн дагуу засаж бидэнд дахин илгээнэ үү.
+    </p>
+  </div>
+  
+  <div class = "container">
+    <span>Энэхүү и-мэйл нь системээс шууд илгээгдэж байгаа тул та хариу бичих шаардлагагүй болно.</span>
+  </div>
+  <div class ="topSpace">
+    <div class = "container">
+      <p>Хүндэтгэсэн:</P>
+    </div>
+    <div class = "container">
+      <p>Үндэсний аудитын газар</P>
+    </div>
+    <div class = "container">
+      <p>Мэдээллийн технологийн төв</P>
+      </div>
+    <div class = "container">
+      <p>2022 он</P>
+    </div>
+  </div>
+  
+  </body>
+  <style>
+    .container {
+      display:block  
+    }
+    .topSpace {
+    margin-top:60px;
+    }
+    .topSpaceLittle {
+    margin-top:20px;
+  }  
+  </style>
+  
+  </html>`,
+      };
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          res.status(200).json({
+            error: error,
+          });
+        } else {
+          transporter.verify(function (error, success) {
+            if (error) {
+              res.status(200).json({
+                message: "fail",
+              });
+            } else {
+              res.status(200).json({
+                info: info.response,
+                message: "success",
+              });
+            }
+          });
+        }
+      });
+    } else res.status(200).json(result);
   } catch (err) {
     next(err);
   }
