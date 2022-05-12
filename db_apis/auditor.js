@@ -4,6 +4,8 @@ const database = require("../services/database.js");
 const baseQuery = `SELECT FA.ID, FA.ENT_ID, FA.AUDIT_CODE, NVL(FDD.IND_VALUE,AE.ENT_NAME) ENT_NAME, 
 CASE WHEN RBT.BUDGET_TYPE_ID = 3 AND SE.BUDGET_TYPE_ID = 5 THEN 'Анхан шатны эмнэлэг' ELSE RBT.BUDGET_SHORT_NAME END BUDGET_NAME,
 COUNT(SC.SURVEY_ID) ||'/'|| COUNT(RS.SURVEY_AUDIT_ID) STATUS,
+COUNT(SC.SURVEY_ID) TOTAL_CNT, SUM(CASE WHEN RS.SURVEY_STATUS_ID = 1 THEN 1 ELSE 0 END) NEW_CNT, 
+SUM(CASE WHEN RS.SURVEY_STATUS_ID = 3 THEN 1 ELSE 0 END) SENT_CNT, SUM(CASE WHEN RS.SURVEY_STATUS_ID = 5 THEN 1 ELSE 0 END) CONFIRM_CNT,
 SU.USER_NAME, SU.USER_CODE 
 FROM FAS_ADMIN.FAS_AUDIT FA
 INNER JOIN AUD_ORG.AUDIT_ENTITY AE ON FA.ENT_ID = AE.ENT_ID
@@ -17,15 +19,37 @@ LEFT JOIN AUD_PUBLIC.REF_SURVEY_CONFIG SC ON SE.BUDGET_TYPE_ID = SC.BUDGET_TYPE_
 LEFT JOIN AUD_PUBLIC.REG_SURVEY RS ON SC.SURVEY_ID = RS.SURVEY_ID AND FA.ID = RS.SURVEY_AUDIT_ID AND RS.SURVEY_STATUS_ID != 1
 WHERE FA.IS_ACTIVE = 1 AND AE.IS_ACTIVE = 1`;
 
+const baseFindDepartmentQuery = `SELECT CD.ID FROM AUD_REG.SYSTEM_USER SU
+INNER JOIN AUD_HR.REG_EMPLOYEE E ON SU.USER_CODE = E.EMP_CODE
+INNER JOIN AUD_HR.REG_POSITION P ON E.EMP_POSITION_ID = P.POSITION_ID
+LEFT JOIN FAS_ADMIN.REF_CHECK_DEPARTMENT CD ON P.DEPARTMENT_ID = CD.DEPARTMENT_ID AND NVL(P.SUB_DEPARTMENT_ID,0) = NVL(CD.SUB_DEPARTMENT_ID,0) AND NVL(P.COMPARTMENT_ID,0) = NVL(CD.COMPARTMENT_ID,0)
+WHERE SU.USER_ID = :USER_ID AND E.IS_ACTIVE = 1 AND SU.IS_ACTIVE = 1 AND P.IS_ACTIVE = 1`;
 async function postList(context) {
   let query = baseQuery;
 
-  const binds = {};
+  let binds = {};
   if (context.usertype === "ADMIN") {
     query += `\n AND 1 = 1 `;
-  } else {
+    binds.CHECK_DEPARTMENT_ID = context.depid;
+    query += `\n AND FA.CHECK_DEPARTMENT_ID = :CHECK_DEPARTMENT_ID `;
+  }
+  // else if (context.usertype === "MANAGER") {
+  //   const bindsDep = {};
+  //   bindsDep.USER_ID = context.userid;
+  //   const resultDep = await database.simpleExecute(
+  //     baseFindDepartmentQuery,
+  //     bindsDep
+  //   );
+
+  //   console.log(resultDep?.rows);
+  //   binds.CHECK_DEPARTMENT_ID = resultDep?.rows?.[0].ID;
+  //   console.log(binds.CHECK_DEPARTMENT_ID);
+  //   query += `\n AND FA.CHECK_DEPARTMENT_ID = :CHECK_DEPARTMENT_ID `;
+  // }
+  else {
+    binds = {};
     binds.USER_ID = context.userid;
-    query += `\n AND EE.CREATED_BY = :USER_ID`;
+    query += `\n AND NVL(EE.UPDATED_BY, EE.CREATED_BY) = :USER_ID`;
   }
   query += `\n GROUP BY FA.ID, FA.ENT_ID, FA.AUDIT_CODE, NVL(FDD.IND_VALUE,AE.ENT_NAME),
   CASE WHEN RBT.BUDGET_TYPE_ID = 3 AND SE.BUDGET_TYPE_ID = 5 THEN 'Анхан шатны эмнэлэг' ELSE RBT.BUDGET_SHORT_NAME END, SU.USER_NAME, SU.USER_CODE`;
