@@ -1423,7 +1423,7 @@ async function postSurveyReturnCreateUpdate(req, res, next) {
       });
 
       var mailOptions = {
-        from: "mnao.mtt@gmail.com",
+        from: "no-reply@audit.gov.mn",
         to: email,
         subject: "Төрийн аудитын байгууллага",
         text: "Төрийн аудитын байгууллага",
@@ -1494,6 +1494,7 @@ async function postSurveyReturnCreateUpdate(req, res, next) {
           });
         }
       });
+      transporter.close();
     } else res.status(200).json(result);
   } catch (err) {
     next(err);
