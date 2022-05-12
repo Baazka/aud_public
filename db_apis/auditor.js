@@ -49,7 +49,7 @@ async function postList(context) {
   else {
     binds = {};
     binds.USER_ID = context.userid;
-    query += `\n AND NVL(EE.UPDATED_BY, EE.CREATED_BY) = :USER_ID`;
+    query += `\n AND CASE WHEN EE.UPDATED_BY IS NULL THEN EE.CREATED_BY ELSE EE.UPDATED_BY END = :USER_ID`;
   }
   query += `\n GROUP BY FA.ID, FA.ENT_ID, FA.AUDIT_CODE, NVL(FDD.IND_VALUE,AE.ENT_NAME),
   CASE WHEN RBT.BUDGET_TYPE_ID = 3 AND SE.BUDGET_TYPE_ID = 5 THEN 'Анхан шатны эмнэлэг' ELSE RBT.BUDGET_SHORT_NAME END, SU.USER_NAME, SU.USER_CODE`;
