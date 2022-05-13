@@ -1394,40 +1394,41 @@ async function postSurveyReturnCreateUpdate(req, res, next) {
       CREATED_BY: parseInt(req.body.CREATED_BY),
     };
     result = await survey.createUpdateSurveyReturn(data);
+    console.log(req.body);
+    if (req.body.P_ID == null) {
+      let email = "";
+      email = result.email;
 
-    let email = "";
-    email = result.email;
+      if (email !== "") {
+        //Email
+        let transporter = nodemailer.createTransport({
+          host: "smtp.gmail.com",
+          port: 587,
+          secureConnection: "true",
+          auth: {
+            user: "mnao.mtt@gmail.com", // generated ethereal user
+            pass: "auZ'r5dU6qR)sf^b", // generated ethereal password
+          },
+        });
+        // let transporter = nodemailer.createTransport({
+        //   host: "smtp.gov.mn",
+        //   port: 465,
+        //   secureConnection: "true",
+        //   auth: {
+        //     user: "no-reply@audit.gov.mn", // generated ethereal user
+        //     pass: "openaudit2020", // generated ethereal password
+        //   },
+        //   tls: {
+        //     rejectUnauthorized: false,
+        //   },
+        // });
 
-    if (email !== "") {
-      //Email
-      // let transporter = nodemailer.createTransport({
-      //   host: "smtp.gmail.com",
-      //   port: 587,
-      //   secureConnection: "true",
-      //   auth: {
-      //     user: "mnao.mtt@gmail.com", // generated ethereal user
-      //     pass: "auZ'r5dU6qR)sf^b", // generated ethereal password
-      //   },
-      // });
-      let transporter = nodemailer.createTransport({
-        host: "smtp.gov.mn",
-        port: 465,
-        secureConnection: "true",
-        auth: {
-          user: "no-reply@audit.gov.mn", // generated ethereal user
-          pass: "openaudit2020", // generated ethereal password
-        },
-        tls: {
-          rejectUnauthorized: false,
-        },
-      });
-
-      var mailOptions = {
-        from: "no-reply@audit.gov.mn",
-        to: email,
-        subject: "Төрийн аудитын байгууллага",
-        text: "Төрийн аудитын байгууллага",
-        html: `<!DOCTYPE html>
+        var mailOptions = {
+          from: "no-reply@audit.gov.mn",
+          to: email,
+          subject: "Төрийн аудитын байгууллага",
+          text: "Төрийн аудитын байгууллага",
+          html: `<!DOCTYPE html>
   <html>
   <body>  
   
@@ -1473,29 +1474,31 @@ async function postSurveyReturnCreateUpdate(req, res, next) {
   </style>
   
   </html>`,
-      };
-      transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-          res.status(200).json({
-            error: error,
-          });
-        } else {
-          transporter.verify(function (error, success) {
-            if (error) {
-              res.status(200).json({
-                message: "fail",
-              });
-            } else {
-              res.status(200).json({
-                info: info.response,
-                message: "success",
-              });
-            }
-          });
-        }
-      });
-      transporter.close();
-    } else res.status(200).json(result);
+        };
+        transporter.sendMail(mailOptions, function (error, info) {
+          if (error) {
+            res.status(200).json({
+              error: error,
+            });
+          } else {
+            transporter.verify(function (error, success) {
+              if (error) {
+                res.status(200).json({
+                  message: "fail",
+                });
+              } else {
+                res.status(200).json({
+                  info: info.response,
+                  message: "success",
+                });
+              }
+            });
+          }
+        });
+        transporter.close();
+      } else res.status(200).json(result);
+    }
+    res.status(200).json(result);
   } catch (err) {
     next(err);
   }
