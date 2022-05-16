@@ -75,6 +75,18 @@ router.route("/surveyReturnDelete").post(survey.postSurveyReturnDelete);
 router.route("/reportGuitsetgel").post(report.postGuitsetgel);
 router.route("/reportUnsent").post(report.postUnsent);
 router.route("/reportZadargaa").post(report.postAuditorZadargaa);
+router.route("/reportZad01").post(report.postZad01);
+router.route("/reportZad21").post(report.postZad21);
+router.route("/reportZad22").post(report.postZad22);
+router.route("/reportZad23").post(report.postZad23);
+router.route("/reportZad03").post(report.postZad03);
+router.route("/reportZad04").post(report.postZad04);
+router.route("/reportZad05").post(report.postZad05);
+router.route("/reportZad06").post(report.postZad06);
+router.route("/reportZad07").post(report.postZad07);
+router.route("/reportZad08").post(report.postZad08);
+router.route("/reportZad09").post(report.postZad09);
+router.route("/reportZad10").post(report.postZad10);
 
 //Auditor
 router.route("/auditorList").post(auditor.postList);
