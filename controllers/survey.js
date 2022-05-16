@@ -1394,7 +1394,7 @@ async function postSurveyReturnCreateUpdate(req, res, next) {
       CREATED_BY: parseInt(req.body.CREATED_BY),
     };
     result = await survey.createUpdateSurveyReturn(data);
-    console.log(req.body);
+    //console.log(req.body);
     if (req.body.P_ID == null) {
       let email = "";
       email = result.email;
@@ -1406,22 +1406,10 @@ async function postSurveyReturnCreateUpdate(req, res, next) {
           port: 587,
           secureConnection: "true",
           auth: {
-            user: "mnao.mtt@gmail.com", // generated ethereal user
+            user: "mnao.mtt1@gmail.com", // generated ethereal user
             pass: "auZ'r5dU6qR)sf^b", // generated ethereal password
           },
         });
-        // let transporter = nodemailer.createTransport({
-        //   host: "smtp.gov.mn",
-        //   port: 465,
-        //   secureConnection: "true",
-        //   auth: {
-        //     user: "no-reply@audit.gov.mn", // generated ethereal user
-        //     pass: "openaudit2020", // generated ethereal password
-        //   },
-        //   tls: {
-        //     rejectUnauthorized: false,
-        //   },
-        // });
 
         var mailOptions = {
           from: "no-reply@audit.gov.mn",
