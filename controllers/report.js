@@ -277,3 +277,42 @@ async function postZad10(req, res, next) {
   }
 }
 module.exports.postZad10 = postZad10;
+
+//Negtgel tailan
+async function postNeg01(req, res, next) {
+  try {
+    const context = {};
+    context.dep_id =
+      req.body.DEPARTMENT_ID == "" ||
+      req.body.DEPARTMENT_ID == "null" ||
+      req.body.DEPARTMENT_ID == null ||
+      req.body.DEPARTMENT_ID == "undefined" ||
+      req.body.DEPARTMENT_ID == undefined
+        ? null
+        : parseInt(req.body.DEPARTMENT_ID, 10);
+    const rows = await report.postNeg01(context);
+    res.status(200).json(rows);
+  } catch (err) {
+    next(err);
+  }
+}
+module.exports.postNeg01 = postNeg01;
+
+async function postNeg21(req, res, next) {
+  try {
+    const context = {};
+    context.dep_id =
+      req.body.DEPARTMENT_ID == "" ||
+      req.body.DEPARTMENT_ID == "null" ||
+      req.body.DEPARTMENT_ID == null ||
+      req.body.DEPARTMENT_ID == "undefined" ||
+      req.body.DEPARTMENT_ID == undefined
+        ? null
+        : parseInt(req.body.DEPARTMENT_ID, 10);
+    const rows = await report.postNeg21(context);
+    res.status(200).json(rows);
+  } catch (err) {
+    next(err);
+  }
+}
+module.exports.postNeg21 = postNeg21;

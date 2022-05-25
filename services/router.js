@@ -88,6 +88,9 @@ router.route("/reportZad08").post(report.postZad08);
 router.route("/reportZad09").post(report.postZad09);
 router.route("/reportZad10").post(report.postZad10);
 
+router.route("/reportNeg01").post(report.postNeg01);
+router.route("/reportNeg21").post(report.postNeg21);
+
 //Auditor
 router.route("/auditorList").post(auditor.postList);
 module.exports = router;
