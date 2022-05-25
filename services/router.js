@@ -91,6 +91,15 @@ router.route("/reportZad10").post(report.postZad10);
 router.route("/reportNeg01").post(report.postNeg01);
 router.route("/reportNeg21").post(report.postNeg21);
 router.route("/reportNeg22").post(report.postNeg22);
+router.route("/reportNeg23").post(report.postNeg23);
+router.route("/reportNeg03").post(report.postNeg03);
+router.route("/reportNeg04").post(report.postNeg04);
+router.route("/reportNeg05").post(report.postNeg05);
+router.route("/reportNeg06").post(report.postNeg06);
+router.route("/reportNeg07").post(report.postNeg07);
+router.route("/reportNeg08").post(report.postNeg08);
+router.route("/reportNeg09").post(report.postNeg09);
+router.route("/reportNeg10").post(report.postNeg10);
 
 //Auditor
 router.route("/auditorList").post(auditor.postList);

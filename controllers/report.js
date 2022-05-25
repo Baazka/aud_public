@@ -335,3 +335,174 @@ async function postNeg22(req, res, next) {
   }
 }
 module.exports.postNeg22 = postNeg22;
+
+async function postNeg23(req, res, next) {
+  try {
+    const context = {};
+    context.dep_id =
+      req.body.DEPARTMENT_ID == "" ||
+      req.body.DEPARTMENT_ID == "null" ||
+      req.body.DEPARTMENT_ID == null ||
+      req.body.DEPARTMENT_ID == "undefined" ||
+      req.body.DEPARTMENT_ID == undefined
+        ? null
+        : parseInt(req.body.DEPARTMENT_ID, 10);
+    const rows = await report.postNeg23(context);
+    res.status(200).json(rows);
+  } catch (err) {
+    next(err);
+  }
+}
+module.exports.postNeg23 = postNeg23;
+
+async function postNeg03(req, res, next) {
+  try {
+    const context = {};
+    context.dep_id =
+      req.body.DEPARTMENT_ID == "" ||
+      req.body.DEPARTMENT_ID == "null" ||
+      req.body.DEPARTMENT_ID == null ||
+      req.body.DEPARTMENT_ID == "undefined" ||
+      req.body.DEPARTMENT_ID == undefined
+        ? null
+        : parseInt(req.body.DEPARTMENT_ID, 10);
+    const rows = await report.postNeg03(context);
+    res.status(200).json(rows);
+  } catch (err) {
+    next(err);
+  }
+}
+module.exports.postNeg03 = postNeg03;
+
+async function postNeg04(req, res, next) {
+  try {
+    const context = {};
+    context.dep_id =
+      req.body.DEPARTMENT_ID == "" ||
+      req.body.DEPARTMENT_ID == "null" ||
+      req.body.DEPARTMENT_ID == null ||
+      req.body.DEPARTMENT_ID == "undefined" ||
+      req.body.DEPARTMENT_ID == undefined
+        ? null
+        : parseInt(req.body.DEPARTMENT_ID, 10);
+    const rows = await report.postNeg04(context);
+    res.status(200).json(rows);
+  } catch (err) {
+    next(err);
+  }
+}
+module.exports.postNeg04 = postNeg04;
+
+async function postNeg05(req, res, next) {
+  try {
+    const context = {};
+    context.dep_id =
+      req.body.DEPARTMENT_ID == "" ||
+      req.body.DEPARTMENT_ID == "null" ||
+      req.body.DEPARTMENT_ID == null ||
+      req.body.DEPARTMENT_ID == "undefined" ||
+      req.body.DEPARTMENT_ID == undefined
+        ? null
+        : parseInt(req.body.DEPARTMENT_ID, 10);
+    const rows = await report.postNeg05(context);
+    res.status(200).json(rows);
+  } catch (err) {
+    next(err);
+  }
+}
+module.exports.postNeg05 = postNeg05;
+
+async function postNeg06(req, res, next) {
+  try {
+    const context = {};
+    context.dep_id =
+      req.body.DEPARTMENT_ID == "" ||
+      req.body.DEPARTMENT_ID == "null" ||
+      req.body.DEPARTMENT_ID == null ||
+      req.body.DEPARTMENT_ID == "undefined" ||
+      req.body.DEPARTMENT_ID == undefined
+        ? null
+        : parseInt(req.body.DEPARTMENT_ID, 10);
+    const rows = await report.postNeg06(context);
+    res.status(200).json(rows);
+  } catch (err) {
+    next(err);
+  }
+}
+module.exports.postNeg06 = postNeg06;
+
+async function postNeg07(req, res, next) {
+  try {
+    const context = {};
+    context.dep_id =
+      req.body.DEPARTMENT_ID == "" ||
+      req.body.DEPARTMENT_ID == "null" ||
+      req.body.DEPARTMENT_ID == null ||
+      req.body.DEPARTMENT_ID == "undefined" ||
+      req.body.DEPARTMENT_ID == undefined
+        ? null
+        : parseInt(req.body.DEPARTMENT_ID, 10);
+    const rows = await report.postNeg07(context);
+    res.status(200).json(rows);
+  } catch (err) {
+    next(err);
+  }
+}
+module.exports.postNeg07 = postNeg07;
+
+async function postNeg08(req, res, next) {
+  try {
+    const context = {};
+    context.dep_id =
+      req.body.DEPARTMENT_ID == "" ||
+      req.body.DEPARTMENT_ID == "null" ||
+      req.body.DEPARTMENT_ID == null ||
+      req.body.DEPARTMENT_ID == "undefined" ||
+      req.body.DEPARTMENT_ID == undefined
+        ? null
+        : parseInt(req.body.DEPARTMENT_ID, 10);
+    const rows = await report.postNeg08(context);
+    res.status(200).json(rows);
+  } catch (err) {
+    next(err);
+  }
+}
+module.exports.postNeg08 = postNeg08;
+
+async function postNeg09(req, res, next) {
+  try {
+    const context = {};
+    context.dep_id =
+      req.body.DEPARTMENT_ID == "" ||
+      req.body.DEPARTMENT_ID == "null" ||
+      req.body.DEPARTMENT_ID == null ||
+      req.body.DEPARTMENT_ID == "undefined" ||
+      req.body.DEPARTMENT_ID == undefined
+        ? null
+        : parseInt(req.body.DEPARTMENT_ID, 10);
+    const rows = await report.postNeg09(context);
+    res.status(200).json(rows);
+  } catch (err) {
+    next(err);
+  }
+}
+module.exports.postNeg09 = postNeg09;
+
+async function postNeg10(req, res, next) {
+  try {
+    const context = {};
+    context.dep_id =
+      req.body.DEPARTMENT_ID == "" ||
+      req.body.DEPARTMENT_ID == "null" ||
+      req.body.DEPARTMENT_ID == null ||
+      req.body.DEPARTMENT_ID == "undefined" ||
+      req.body.DEPARTMENT_ID == undefined
+        ? null
+        : parseInt(req.body.DEPARTMENT_ID, 10);
+    const rows = await report.postNeg10(context);
+    res.status(200).json(rows);
+  } catch (err) {
+    next(err);
+  }
+}
+module.exports.postNeg10 = postNeg10;
