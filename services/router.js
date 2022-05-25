@@ -90,6 +90,7 @@ router.route("/reportZad10").post(report.postZad10);
 
 router.route("/reportNeg01").post(report.postNeg01);
 router.route("/reportNeg21").post(report.postNeg21);
+router.route("/reportNeg22").post(report.postNeg22);
 
 //Auditor
 router.route("/auditorList").post(auditor.postList);
